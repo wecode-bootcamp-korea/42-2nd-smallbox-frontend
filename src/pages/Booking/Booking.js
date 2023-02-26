@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Booking() {
-  return <></>;
+  return <div></div>;
 }
 
 export default Booking;

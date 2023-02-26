@@ -1,4 +1,3 @@
-import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
@@ -8,6 +7,14 @@ ${reset}
   * {
     box-sizing: border-box;
     font-family: 'Noto Sans KR', sans-serif;
+
+    ::selection{
+      background-color: #7063FF;
+    }
+
+    a{
+      text-decoration:none;
+    }
   }
 `;
 
