@@ -90,6 +90,7 @@ const NavWrapper = styled.div`
   height: 80px;
   background: ${props => (props.scrollPosition > 100 ? '#9971ff' : 'white')};
   transition: 0.2s ease-out;
+  z-index: 100;
 `;
 
 const MenuWrapper = styled.div`
