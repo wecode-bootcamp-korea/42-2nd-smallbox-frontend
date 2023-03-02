@@ -43,12 +43,13 @@ const SignIn = styled(Link)`
 `;
 
 const Textbubble = styled.div`
-  border: 2px solid #7063ff;
   display: inline-block;
-  padding: 5px;
   margin: 50px 0 10px 0;
   border-radius: 10px;
   font-size: 12px;
+  border-radius: 15px 15px 15px 0;
+  border: 3px solid #7063ff;
+  padding: 0.5em 0.6em;
 `;
 
 export default LoginContainer;
