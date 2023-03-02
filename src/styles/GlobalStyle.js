@@ -9,12 +9,17 @@ ${reset}
     font-family: 'Noto Sans KR', sans-serif;
 
     ::selection{
-      background-color: #7063FF;
+      background-color: #9971ff;
     }
 
     a{
       text-decoration:none;
     }
+    button{
+      cursor: pointer;
+    }
+   
+    
   }
   a{
     text-decoration: none;

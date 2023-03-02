@@ -62,7 +62,6 @@ const SectionTopMore = styled.button`
   background: transparent;
   font-weight: 700;
   font-size: 15px;
-  pointer: cursor;
   transition: 0.3s;
 
   &:hover {

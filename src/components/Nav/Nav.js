@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import logo from './images/smallbox_logo.png';
 import searchIcon from './images/icon_search.png';
@@ -51,7 +51,7 @@ function Nav() {
         {searchInput && (
           <RecommendSearch>
             {filteredRecommendData.map(item => {
-              return <SearchedLink>{item.name}</SearchedLink>;
+              return <SearchedLink key={item.id}>{item.name}</SearchedLink>;
             })}
           </RecommendSearch>
         )}
