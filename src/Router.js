@@ -8,6 +8,7 @@ import Booking from './pages/Booking/Booking';
 import Login from './pages/Login/Login';
 import Main from './pages/Main/Main';
 import KaKaoAPI from './pages/Login/KakaoAPI';
+import SelectMovie from './pages/Booking/SelectMovie';
 
 const Router = () => {
   return (
@@ -20,6 +21,7 @@ const Router = () => {
         <Route path="/users/login" element={<KaKaoAPI />} />
         <Route path="/movieList" element={<MovieList />} />
         <Route path="/movieDetail" element={<MovieDetail />} />
+        <Route path="/selectmovie" element={<SelectMovie />} />
       </Routes>
       <Footer />
     </BrowserRouter>
