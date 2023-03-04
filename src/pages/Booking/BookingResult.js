@@ -38,7 +38,7 @@ function BookingResult() {
           </MovieDataUl>
         </MovieDataWrapper>
       </BookingBottom>
-      <GoSeatSelectionBtn>좌석선택 ></GoSeatSelectionBtn>
+      <GoSeatSelectionBtn>좌석선택 →</GoSeatSelectionBtn>
     </BookingResultContainer>
   );
 }

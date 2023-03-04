@@ -10,6 +10,11 @@ import Main from './pages/Main/Main';
 import KaKaoAPI from './pages/Login/KakaoAPI';
 import Seats from './pages/Booking/Seats';
 import SelectMovie from './pages/Booking/SelectMovie';
+import Payment from './pages/Booking/Payment/Payment';
+import PaymentApproval from './pages/Booking/Payment/PaymentApproval';
+import PaymentCancel from './pages/Booking/Payment/PaymentCancel';
+import PaymentFail from './pages/Booking/Payment/PaymentFail';
+import PaymentResult from './pages/Booking/Payment/PaymentResult';
 
 const Router = () => {
   return (
@@ -24,6 +29,11 @@ const Router = () => {
         <Route path="/movieList" element={<MovieList />} />
         <Route path="/movieDetail" element={<MovieDetail />} />
         <Route path="/selectmovie" element={<SelectMovie />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment/approval" element={<PaymentApproval />} />
+        <Route path="/payment/cancel" element={<PaymentCancel />} />
+        <Route path="/payment/fail" element={<PaymentFail />} />
+        <Route path="/payment/result" element={<PaymentResult />} />
       </Routes>
       <Footer />
     </BrowserRouter>
