@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import resetIcon from './resetIcon.png';
 
-const SelectMovieHeader = () => {
+const SelectMovieHeader = ({ text }) => {
   return (
     <div>
       <BookingContainer>
         <BookingHeader>
-          <HeaderTitle>빠른예매</HeaderTitle>
+          <HeaderTitle>{text}</HeaderTitle>
           <HeaderLeftUl>
             <li>
               <Link to="#">
