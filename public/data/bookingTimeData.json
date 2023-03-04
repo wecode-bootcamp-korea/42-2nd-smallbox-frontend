@@ -1,0 +1,14 @@
+{
+  "times": [
+    { "id": 1, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" },
+    { "id": 2, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" },
+    { "id": 3, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" },
+    { "id": 4, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" },
+    { "id": 5, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" },
+    { "id": 6, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" },
+    { "id": 7, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" },
+    { "id": 8, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" },
+    { "id": 9, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" },
+    { "id": 10, "start_time": "17:10", "end_time": "19:48", "seat": "22/39" }
+  ]
+}
