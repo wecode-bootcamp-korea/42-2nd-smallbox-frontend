@@ -27,7 +27,7 @@ const KakaoAPI = () => {
   };
 
   const postToken = token => {
-    fetch('http://10.58.52.121:3000/users/login', {
+    fetch('http://10.58.52.168:3000/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
