@@ -27,7 +27,7 @@ function Videos({ item }) {
 export default Videos;
 
 const VideoWrapper = styled.div`
-  postion: relative;
+  position: relative;
   width: 100vw;
   height: 500px;
   overflow: hidden;

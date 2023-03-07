@@ -15,6 +15,7 @@ import PaymentApproval from './pages/Booking/Payment/PaymentApproval';
 import PaymentCancel from './pages/Booking/Payment/PaymentCancel';
 import PaymentFail from './pages/Booking/Payment/PaymentFail';
 import PaymentResult from './pages/Booking/Payment/PaymentResult';
+import Theater from './pages/Theater/Theater';
 
 const Router = () => {
   return (
@@ -34,6 +35,7 @@ const Router = () => {
         <Route path="/payment/cancel" element={<PaymentCancel />} />
         <Route path="/payment/fail" element={<PaymentFail />} />
         <Route path="/payment/result" element={<PaymentResult />} />
+        <Route path="/theater" element={<Theater />} />
       </Routes>
       <Footer />
     </BrowserRouter>

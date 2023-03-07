@@ -148,7 +148,7 @@ const RightSection = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content; center;
+  justify-content: center;
   margin-top: 30px;
   margin-left: 80px;
   width: 300px;
