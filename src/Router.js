@@ -15,6 +15,10 @@ import PaymentApproval from './pages/Booking/Payment/PaymentApproval';
 import PaymentCancel from './pages/Booking/Payment/PaymentCancel';
 import PaymentFail from './pages/Booking/Payment/PaymentFail';
 import PaymentResult from './pages/Booking/Payment/PaymentResult';
+<<<<<<< HEAD
+=======
+import Theater from './pages/Theater/Theater';
+>>>>>>> b2948d2 (ADD: chart 레이아웃 & 기능 구현)
 import Chart from './pages/Chart/Chart';
 
 const Router = () => {
@@ -33,11 +37,13 @@ const Router = () => {
         <Route path="/movieList" element={<MovieList />} />
         <Route path="/movieDetail/:id" element={<MovieDetail />} />
         <Route path="/selectmovie" element={<SelectMovie />} />
+        <Route path="/chart/detail/:id" element={<MovieDetail />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/payment/approval" element={<PaymentApproval />} />
         <Route path="/payment/cancel" element={<PaymentCancel />} />
         <Route path="/payment/fail" element={<PaymentFail />} />
         <Route path="/payment/result" element={<PaymentResult />} />
+        <Route path="/theater" element={<Theater />} />
         <Route path="*" element={<div>찾으시는 창이 없네요</div>} />
       </Routes>
       <Footer />

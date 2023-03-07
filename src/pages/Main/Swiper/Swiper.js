@@ -9,7 +9,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 export default function App() {
-  const [swiperData, loading, error] = useFetch('/data/SwiperMoviesData.json');
+  const [swiperData] = useFetch('/data/SwiperMoviesData.json');
 
   SwiperCore.use([Navigation, Scrollbar]);
 

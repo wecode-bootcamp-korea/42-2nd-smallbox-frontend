@@ -21,11 +21,6 @@ ChartJs.register(
 );
 
 const CharmingGraph = () => {
-  // useEffect(() => {
-  //   fetch('/data/dataGraph.json')
-  //     .then(response => response.json())
-  //     .then(data => setScoreList(data[0]));
-  // }, []);
   return (
     <GraphContainer>
       <ScoreGraph>
@@ -112,19 +107,3 @@ const labelFont = {
   },
 };
 export default CharmingGraph;
-
-// const CHARMING_DATA_LIST = [
-//   { id: 1, title: '감독연출' },
-//   { id: 2, title: '스토리' },
-//   { id: 3, title: '영상미' },
-//   { id: 4, title: '배우연기' },
-//   { id: 5, title: 'OST' },
-// ];
-
-// const EMOTIOMAL_DATA_LIST = [
-//   { id: 1, title: '스트레스 해소' },
-//   { id: 2, title: '무서움' },
-//   { id: 3, title: '현실감' },
-//   { id: 4, title: '몰입감' },
-//   { id: 5, title: '긴장감' },
-// ];

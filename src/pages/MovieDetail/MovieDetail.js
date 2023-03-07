@@ -10,7 +10,6 @@ const MovieDetail = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [toggleBtn, setToggleBtn] = useState(true);
   const params = useParams();
-  console.log(params);
 
   const {
     movieThumbNailImg,
@@ -27,6 +26,7 @@ const MovieDetail = () => {
     movieStillCut,
     // movieTrailer,
   } = movieData;
+
   const handleScroll = () => {
     const { scrollY } = window;
     scrollY > 200 && setToggleBtn(!toggleBtn);
@@ -37,12 +37,9 @@ const MovieDetail = () => {
     toggleBtn(false);
   };
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  });
+  const updateScroll = () => {
+    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+  };
 
   useEffect(() => {
     fetch(`http://10.58.52.168:3000/movies/detail?movieId=${params.id}`, {
@@ -53,85 +50,96 @@ const MovieDetail = () => {
       .then(data => {
         setMovieData(data.getMovieDetail[0]);
       });
-  }, []);
-  const updateScroll = () => {
-    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
-  };
 
-  useEffect(() => {
     window.addEventListener('scroll', updateScroll);
-  });
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <>
-      <WholeContainer>
-        <MovieBox>
-          <MovieAndDetail>
-            <MoviePoster src={movieThumbNailImg} alt="포스터" />
-            <AsidePoster>
-              <MovieTitle>{movieName}</MovieTitle>
-              <EnglishTitle>{movieNameInEnligh}</EnglishTitle>
-              <DetailBox>
-                <ul>
-                  {Detail_LIST.map(category => {
-                    return (
-                      <DetailTitle key={category.id}>
-                        {category.title}
-                      </DetailTitle>
-                    );
-                  })}
-                </ul>
-                {movieData.director && (
-                  <ul>
-                    <DetailContext>{director}</DetailContext>
-                    <DetailContext>{movieActors?.join(' ')}</DetailContext>
-                    <DetailContext>{country}</DetailContext>
-                    <DetailContext>{movieAgeRating}세 관람가</DetailContext>
-                    <DetailContext>{movieRunningTime}</DetailContext>
-                    <DetailContext>{movieGenre?.join(' ')}</DetailContext>
-                    <DetailContext>{movieOpeningDate}</DetailContext>
-                  </ul>
-                )}
-              </DetailBox>
-              <BookingButton>예매하기🎬</BookingButton>
-            </AsidePoster>
-          </MovieAndDetail>
-          <DesBox className="description">
-            <Destitle>줄거리</Destitle>
-            <br />
-            <DesContent>
-              <span>{movieDetailDescription}</span>
-            </DesContent>
-            <DetailImg movieStillCut={movieStillCut} />
-          </DesBox>
-          <CharmingGraph />
-          <MovieReview />
-        </MovieBox>
-        <div className="logoplace" />
+    <div>
+      {movieData && (
+        <div>
+          <WholeContainer>
+            <MovieBox>
+              <MovieAndDetail>
+                <MoviePoster src={movieData.movieThumbNailImg} alt="포스터" />
+                <AsidePoster>
+                  <MovieTitle>{movieData.movieName}</MovieTitle>
+                  <EnglishTitle>{movieData.movieNameInEnligh}</EnglishTitle>
+                  <DetailBox>
+                    <ul>
+                      {Detail_LIST.map(category => {
+                        return (
+                          <DetailTitle key={category.id}>
+                            {category.title}
+                          </DetailTitle>
+                        );
+                      })}
+                    </ul>
 
-        {/* <img src={movieStillCut[0]} alt="이미지" /> */}
-      </WholeContainer>
-      <ButtonBox>
-        <ScrollBtn
-          right={scrollPosition > 100 ? '0px' : '-30px'}
-          width="136px"
-          scrollPosition={scrollPosition}
-        >
-          예매하기
-        </ScrollBtn>
+                    <ul>
+                      <DetailContext>{.director}</DetailContext>
+                      <DetailContext>
+                        {.movieActors?.join(' ')}
+                      </DetailContext>
+                      <DetailContext>{.country}</DetailContext>
+                      <DetailContext>
+                        {.movieAgeRating}세 관람가
+                      </DetailContext>
+                      <DetailContext>
+                        {.movieRunningTime}분
+                      </DetailContext>
+                      <DetailContext>
+                        {.movieGenre?.join(' ')}
+                      </DetailContext>
+                      <DetailContext>
+                        {.movieOpeningDate}
+                      </DetailContext>
+                    </ul>
+                  </DetailBox>
+                  <BookingButton>예매하기🎬</BookingButton>
+                </AsidePoster>
+              </MovieAndDetail>
+              <DesBox className="description">
+                <Destitle>줄거리</Destitle>
+                <br />
+                <DesContent>
+                  <span>{.movieDetailDescription}</span>
+                </DesContent>
+                <DetailImg />
+              </DesBox>
+              <CharmingGraph />
+              <MovieReview />
+            </MovieBox>
+            <div className="logoplace" />
+          </WholeContainer>
+          <ButtonBox>
+            <ScrollBtn
+              right={scrollPosition > 100 ? '0px' : '-30px'}
+              width="136px"
+              scrollPosition={scrollPosition}
+            >
+              예매하기
+            </ScrollBtn>
 
-        <ScrollBtn
-          right={scrollPosition > 100 ? '-50px' : '-100px'}
-          width="50px"
-          scrollPosition={scrollPosition}
-          onClick={goToTop}
-        >
-          Up
-        </ScrollBtn>
-      </ButtonBox>
-    </>
+            <ScrollBtn
+              right={scrollPosition > 100 ? '-50px' : '-100px'}
+              width="50px"
+              scrollPosition={scrollPosition}
+              onClick={goToTop}
+            >
+              Up
+            </ScrollBtn>
+          </ButtonBox>
+        </div>
+      )}
+    </div>
   );
 };
+
 const ButtonBox = styled.div`
   right: 50%;
   margin-right: -548px;
@@ -272,7 +280,6 @@ const MoviePoster = styled.img`
   border-radius: 10px;
   filter: drop-shadow(10px 10px 10px #000);
 `;
-export default MovieDetail;
 
 const Detail_LIST = [
   { id: 1, title: '감독' },
@@ -283,3 +290,4 @@ const Detail_LIST = [
   { id: 6, title: '장르' },
   { id: 7, title: '개봉일' },
 ];
+export default MovieDetail;
