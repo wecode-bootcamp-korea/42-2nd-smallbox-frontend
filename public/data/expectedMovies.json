@@ -1,0 +1,24 @@
+{
+  "expectedMovies": [
+    {
+      "title": "스파이더맨: 노 웨이 홈",
+      "poster": "/spiderman-no-way-home.jpg",
+      "releaseDate": "2021-12-17"
+    },
+    {
+      "title": "매드니스",
+      "poster": "/madness.jpg",
+      "releaseDate": "2022-02-10"
+    },
+    {
+      "title": "아바타: 더 워",
+      "poster": "/avatar-2.jpg",
+      "releaseDate": "2022-12-16"
+    },
+    {
+      "title": "블랙 팬서: 와칸다 포에버",
+      "poster": "/black-panther-wakanda-forever.jpg",
+      "releaseDate": "2022-11-10"
+    }
+  ]
+}

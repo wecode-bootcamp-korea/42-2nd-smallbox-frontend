@@ -15,7 +15,7 @@ import PaymentApproval from './pages/Booking/Payment/PaymentApproval';
 import PaymentCancel from './pages/Booking/Payment/PaymentCancel';
 import PaymentFail from './pages/Booking/Payment/PaymentFail';
 import PaymentResult from './pages/Booking/Payment/PaymentResult';
-import Theater from './pages/Theater/Theater';
+import Chart from './pages/Chart/Chart';
 
 const Router = () => {
   return (
@@ -27,6 +27,9 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/users/login" element={<KaKaoAPI />} />
         <Route path="/seats" elememt={<Seats />} />
+        <Route path="/chart" element={<Chart />} />
+
+        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/movieList" element={<MovieList />} />
         <Route path="/movieDetail/:id" element={<MovieDetail />} />
         <Route path="/selectmovie" element={<SelectMovie />} />
@@ -35,7 +38,7 @@ const Router = () => {
         <Route path="/payment/cancel" element={<PaymentCancel />} />
         <Route path="/payment/fail" element={<PaymentFail />} />
         <Route path="/payment/result" element={<PaymentResult />} />
-        <Route path="/theater" element={<Theater />} />
+        <Route path="*" element={<div>찾으시는 창이 없네요</div>} />
       </Routes>
       <Footer />
     </BrowserRouter>
