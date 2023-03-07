@@ -44,7 +44,7 @@ function Nav() {
         <LogoImg alt="logo" src={logo} scrollPosition={scrollPosition} />
         <MenuName scrollPosition={scrollPosition}>영화</MenuName>
         <MenuName scrollPosition={scrollPosition}>예매</MenuName>
-        <MenuName scrollPosition={scrollPosition}>극장</MenuName>
+        <MenuName scrollPosition={scrollPosition}>영화관 소개</MenuName>
       </MenuWrapper>
 
       <SearchWrapper ref={searchWrapper}>

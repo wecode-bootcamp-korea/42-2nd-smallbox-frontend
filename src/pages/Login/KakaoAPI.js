@@ -38,7 +38,6 @@ const KakaoAPI = () => {
       .then(data => {
         if (data.accessToken) {
           localStorage.setItem('token', data.accessToken);
-          console.log(token);
           navigate('/');
         } else {
           alert('다시 로그인 해주세요!');
