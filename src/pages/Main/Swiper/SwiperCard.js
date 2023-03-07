@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
 
 function SwiperCard({ movie }) {
   const [isMouseHover, setIsMouseHover] = useState(false);
@@ -10,6 +11,11 @@ function SwiperCard({ movie }) {
     movieSimpleDescription,
   } = movie;
 
+  const navigate = useNavigate();
+
+  const goToBooking = () => {
+    navigate(`/booking`);
+  };
   const onMouseOverMovie = () => {
     setIsMouseHover(true);
   };
@@ -17,6 +23,7 @@ function SwiperCard({ movie }) {
   const onMouseOutMovie = () => {
     setIsMouseHover(false);
   };
+
   return (
     <SwiperCardContainer
       onMouseOver={onMouseOverMovie}
@@ -24,7 +31,16 @@ function SwiperCard({ movie }) {
     >
       <Overlay isMouseHover={isMouseHover}>
         <OverlayText>{movieSimpleDescription}</OverlayText>
-        <OverlayBtn>상세 보기</OverlayBtn>
+        <MouseHoverButton>
+          <OverlayBtn
+            onClick={() => {
+              navigate(`/movieDetail/${movie.id}`);
+            }}
+          >
+            상세 보기
+          </OverlayBtn>
+          <OverlayBtn onClick={goToBooking}>예약 하기</OverlayBtn>
+        </MouseHoverButton>
       </Overlay>
       <PosterImg src={movieThumbnailImageUrl} />
       <MovieInfoTextWrapper>
@@ -88,6 +104,7 @@ const OverlayBtn = styled.button`
   &:hover {
     background: white;
     color: #7063ff;
+    box-shadow: 1.8px 3.7px 8px #767676;
   }
 `;
 
@@ -110,4 +127,9 @@ const MovieInfoText = styled.span`
   margin-top: 10px;
   font-size: 15px;
   color: gray;
+`;
+const MouseHoverButton = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 75px;
 `;

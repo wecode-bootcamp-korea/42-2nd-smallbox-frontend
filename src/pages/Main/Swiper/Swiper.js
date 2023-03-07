@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import SwiperCore, { Pagination, Navigation, Scrollbar } from 'swiper';
+import React, { useRef } from 'react';
+import SwiperCore, { Navigation, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import styled from 'styled-components';
 import SwiperCard from './SwiperCard';
@@ -10,8 +10,6 @@ import 'swiper/css/navigation';
 
 export default function App() {
   const [swiperData, loading, error] = useFetch('/data/SwiperMoviesData.json');
-
-  console.log(swiperData);
 
   SwiperCore.use([Navigation, Scrollbar]);
 
@@ -107,7 +105,7 @@ const StyledRoot = styled.div`
       width: 300px;
       object-fit: cover;
       border-radius: 10px;
-      box-shadow: 1.8px 3.7px 8px hsl(0deg 0% 0% / 0.44);
+      box-shadow: 1.8px 3.7px 8px;
     }
   }
 `;
@@ -117,7 +115,6 @@ const StyledButtonPrev = styled.button`
   height: 100px;
   background: transparent;
   border: 0px;
-  pointer: cursor;
 `;
 
 const StyledButtonNext = styled.button`
@@ -125,10 +122,8 @@ const StyledButtonNext = styled.button`
   height: 100px;
   background: transparent;
   border: 0px;
-  pointer: cursor;
 `;
 
 const ArrowImg = styled.img`
   width: 30px;
-  pointer: cursor;
 `;

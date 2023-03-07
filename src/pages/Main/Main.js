@@ -1,34 +1,39 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+// import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import Swiper from './Swiper/Swiper';
 import VideoSwiper from './VideoSwiper/VideoSwiper';
+import MainTop4 from './MainTop4';
 
 function Main() {
+  // const navigate = useNavigate();
+
   return (
     <MainContainer>
       <VideoSwiper />
+      <SectionTop>
+        <SectionTopTitleColored>▶ Now Showing</SectionTopTitleColored>
+        <SectionTopTitle>현재 상영작</SectionTopTitle>
+        <SectionTopMore>+ 더 보기</SectionTopMore>
+      </SectionTop>
       <SectionA>
-        <SectionTop>
-          <SectionTopTitleColored>▶ Now Playing</SectionTopTitleColored>
-          <SectionTopTitle>현재 상영작</SectionTopTitle>
-          <SectionTopMore>+ 더 보기</SectionTopMore>
-        </SectionTop>
         <Swiper />
+        <MainTop4 />
       </SectionA>
     </MainContainer>
   );
 }
 
 const MainContainer = styled.div`
-  width: 100vw;
-  height: 1300px;
+  /* width: 100%; */
 `;
 const SectionA = styled.div`
+  width: 100%;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  width: 100vw;
 `;
 
 const SectionTop = styled.div`
@@ -36,12 +41,14 @@ const SectionTop = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 1200px;
+  width: 100%;
   height: 80px;
+  margin-left: 100px;
+  margin-top: 20px;
 `;
 const SectionTopTitleColored = styled.h3`
-  color: #7063ff;
-  font-weight: 600;
+  color: #9971ff;
+  font-weight: 700;
   font-size: 25px;
 `;
 
@@ -54,10 +61,10 @@ const SectionTopTitle = styled.h3`
 
 const SectionTopMore = styled.button`
   position: absolute;
-  right: 0px;
-  color: #7063ff;
+  right: 200px;
+  color: #9971ff;
   padding: 8px 15px;
-  border: 2px solid #7063ff;
+  border: 2px solid #9971ff;
   border-radius: 30px;
   background: transparent;
   font-weight: 700;
@@ -66,7 +73,7 @@ const SectionTopMore = styled.button`
 
   &:hover {
     color: white;
-    background: #7063ff;
+    background: #9971ff;
     transition: 0.3s;
   }
 `;

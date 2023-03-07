@@ -44,12 +44,13 @@ export default function PaymentApproval() {
       },
       body: JSON.stringify({
         paymentData,
+        // orderNumber,
       }),
     })
       .then(result => {
-        console.log(paymentData);
-        console.log(result);
-        console.log(USER_TOKEN);
+        // console.log(paymentData);
+        // console.log(result);
+        // console.log(USER_TOKEN);
       })
       .then(navigate('/'));
   };
