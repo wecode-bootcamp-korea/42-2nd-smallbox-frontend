@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PeopleCount from './PeopleCount';
-import resetIcon from './images/icon_reset.png';
 import SeatsButton from './SeatsButton';
+import SelectMovieHeader from '../SelectMovieHeader';
 
-function Seats() {
+function Seats({
+  finalSelectedData,
+  selectedMovieData,
+  selectedTimetableData,
+  setPaymentPageToggle,
+  finalPeopleData,
+  setSelectedSeat,
+  selectedSeat,
+  setFinalPeopleData,
+  setSelectedSeatName,
+  selectedSeatName,
+}) {
   const [movieData, setMovieData] = useState([]);
   const [seatsData, setSeatsData] = useState([]);
-  const [selectedSeat, setSelectedSeat] = useState([]);
+
   const [toggle, setToggle] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -17,17 +29,21 @@ function Seats() {
     청소년: 0,
     우대: 0,
   };
+
   const [peopleTotalCount, setPeopleTotalCount] = useState(initCountValue);
+
   const peopleTotalSum = Object.values(peopleTotalCount).reduce(
     (a, b) => a + b,
     0
   );
 
   useEffect(() => {
-    fetch('/data/SeatsData.json')
+    fetch(
+      `http://43.200.63.91:3000/ticketings/${finalSelectedData[0]?.timetableId}`
+    )
       .then(response => response.json())
       .then(data => {
-        setSeatsData(data);
+        setSeatsData(data.result);
       });
   }, []);
 
@@ -38,42 +54,49 @@ function Seats() {
     setSelectedSeat([]);
     setToggle(() => !toggle);
   };
+
   const addSeats = e => {
-    if (peopleTotalSum > selectedSeat.length)
+    if (peopleTotalSum > selectedSeat.length) {
       setSelectedSeat(prev => [...prev, e.target.value]);
+      setSelectedSeatName(prev => [...prev, e.target.name]);
+    }
     if (peopleTotalSum <= selectedSeat.length) {
       window.alert('선택한 인원수를 초과하였습니다');
     }
   };
 
-  useEffect(() => {
-    fetch('/data/movieData.json')
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        setMovieData(data.movie[0]);
-      });
-  }, []);
-
   const removeSeats = e => {
     setSelectedSeat(prev => prev.filter(item => item !== e.target.value));
+    setSelectedSeatName(prev => prev.filter(item => item !== e.target.name));
   };
 
+  const peopleList = Object.entries(peopleTotalCount).map(([key, value]) => {
+    if (value > 0) {
+      return `${key}(${value}) \n`;
+    }
+  });
+  const SEATS_RESULT_SECTION = [
+    {
+      id: 1,
+      index: '등급',
+      context: `${selectedMovieData[0]?.rating}세 이상`,
+    },
+    { id: 2, index: '날짜', context: `${finalSelectedData[0]?.date}` },
+    { id: 3, index: '시간', context: `${finalSelectedData[0]?.startTime}` },
+    {
+      id: 4,
+      index: '인원',
+      context: `${peopleList?.join(' ')}`,
+    },
+    {
+      id: 5,
+      index: '좌석',
+      context: `${selectedSeatName.join(',')}`,
+    },
+  ];
   return (
     <>
-      <HeaderContainer>
-        <HeaderLeft>
-          <HeaderResetIcon alt="resetIcon" src={resetIcon} />
-          <HeaderResetSpan onClick={reset}>예매 다시하기</HeaderResetSpan>
-        </HeaderLeft>
-        <HeaderCenter>
-          <HeaderCenterTitle>좌석선택</HeaderCenterTitle>
-        </HeaderCenter>
-        <HeaderRight>
-          <HeaderRightSpan>예매 가이드</HeaderRightSpan>
-        </HeaderRight>
-      </HeaderContainer>
+      <SelectMovieHeader text="좌석선택" />
       <SeatsContainer>
         <PeopleContainer>
           <BookingTop>
@@ -135,50 +158,28 @@ function Seats() {
           <BookingTop>
             <BookingTitle>구매내역</BookingTitle>
           </BookingTop>
-          <MovieTitle>잠 못 이루는 밤</MovieTitle>
+          <MovieTitle>{selectedMovieData[0]?.movieTitle}</MovieTitle>
           <Line />
           <MovieDataWrapper>
-            <MovieDataIndex>
-              <ul>
-                <li>상영관</li>
-                <li>상영등급</li>
-                <li>날짜</li>
-                <li>상영시간</li>
-                <li>인원</li>
-              </ul>
-            </MovieDataIndex>
-            <MovieDataContext>
-              <ul>
-                <li>{movieData.theater}</li>
-                <li>{movieData.rating}</li>
-                <li>{movieData.date}</li>
-                <li>{movieData.time}</li>
-                <li>
-                  {Object.values(peopleTotalCount).some(isNotZero) ? null : (
-                    <div>&nbsp;</div>
-                  )}
-                  {Object.entries(peopleTotalCount).map(([key, value]) => {
-                    if (value > 0)
-                      return (
-                        <div key={key}>
-                          {key}({value})
-                        </div>
-                      );
-                  })}
-                </li>
-              </ul>
-            </MovieDataContext>
+            <ul>
+              {SEATS_RESULT_SECTION.map(item => {
+                return (
+                  <li key={item.id}>
+                    <MovieDataSpan>
+                      <MovieDataIndex>{item.index}</MovieDataIndex>
+                      <MovieDataContext>{item.context}</MovieDataContext>
+                    </MovieDataSpan>
+                  </li>
+                );
+              })}
+            </ul>
           </MovieDataWrapper>
-          <SeatsDataWrapper>
-            <MovieDataIndex>좌석</MovieDataIndex>
-            <MovieDataContext>{selectedSeat.join()}</MovieDataContext>
-          </SeatsDataWrapper>
           <TimeInfoWrapper>
             <TimeInfoTitle>현재선택 상영시간</TimeInfoTitle>
-            <TimeInfoTime>{movieData.time}</TimeInfoTime>
+            <TimeInfoTime>{finalSelectedData[0]?.startTime}</TimeInfoTime>
             <TimeInfoBtn>상영시간 변경</TimeInfoBtn>
           </TimeInfoWrapper>
-          <GoPayBtn>결제 →</GoPayBtn>
+          <GoPayBtn onClick={() => setPaymentPageToggle(true)}>결제 →</GoPayBtn>
         </SeatsResultContainer>
       </SeatsContainer>
     </>
@@ -191,69 +192,14 @@ const SeatsContainer = styled.div`
   width: 100%;
 `;
 
-const HeaderContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 1000px;
-  height: 70px;
-  background: #3e3e3e;
-`;
-
-const HeaderLeft = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  left: 30px;
-  width: 200px;
-`;
-
-const HeaderRight = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  right: 30px;
-`;
-
-const HeaderRightSpan = styled.span`
-  font-size: 15px;
-  color: lightgray;
-`;
-
-const HeaderCenter = styled.h2`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-
-const HeaderCenterTitle = styled.h2`
-  font-size: 25px;
-  font-weight: 600;
-  margin-right: auto;
-  color: white;
-`;
-
-const HeaderResetIcon = styled.img`
-  width: 20px;
-  filter: invert(90%);
-`;
-
-const HeaderResetSpan = styled.span`
-  margin-left: 10px;
-  font-size: 15px;
-  color: lightgray;
-`;
-
 const PeopleContainer = styled.div`
   position: relative;
-  width: 200px;
-  height: 600px;
-  border: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 800px;
+  border-right: 1px solid lightgray;
 `;
 
 const SeatsSelectContainer = styled.div`
@@ -261,8 +207,9 @@ const SeatsSelectContainer = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 600px;
-  height: 600px;
+  margin-top: 70px;
+  width: 800px;
+  height: 650px;
   border-bottom: 1px solid lightgray;
 `;
 
@@ -272,7 +219,7 @@ const SeatsSelectInfo = styled.div`
   flex-direction: row;
   align-items: center;
   bottom: 0px;
-  width: 600px;
+  width: 100%;
   height: 80px;
   background: #e7e7e7;
   border-top: 1px solid lightgray;
@@ -332,9 +279,8 @@ const BookingTop = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
-  align-content: center;
   align-items: center;
-  height: 70px;
+  height: 100px;
 `;
 
 const BookingTitle = styled.h2`
@@ -373,16 +319,17 @@ const SeatsResultContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 200px;
-  height: 600px;
-  border: 1px solid lightgray;
+  width: 300px;
+  height: 720px;
+  border-left: 1px solid lightgray;
 `;
 
 const MovieTitle = styled.h3`
   text-align: center;
   font-size: 18px;
   font-weight: 700;
-  margin: 15px 0px;
+  margin-top: 30px;
+  margin-bottom: 20px;
 `;
 
 const Line = styled.div`
@@ -396,24 +343,36 @@ const MovieDataWrapper = styled.div`
   justify-content: center;
   gap: 20px;
   margin-top: 20px;
+  height: 100%;
 `;
 
-const MovieDataIndex = styled.span`
+const MovieDataIndex = styled.p`
+  width: 50px;
   font-weight: 700;
   font-size: 15px;
   line-height: 25px;
+`;
+
+const MovieDataSpan = styled.div`
+  display: flex;
 `;
 
 const MovieDataContext = styled.span`
   font-size: 15px;
   color: #949494;
   line-height: 25px;
+  white-space: pre-line;
 `;
 
 const SeatsDataWrapper = styled.div`
   display: flex;
-  margin-left: 16px;
   gap: 45px;
+`;
+
+const SeatsDataContext = styled.span`
+  font-size: 15px;
+  color: #7063ff;
+  line-height: 25px;
 `;
 
 const TimeInfoWrapper = styled.div`
@@ -445,6 +404,7 @@ const TimeInfoBtn = styled.button`
   padding: 8px 15px;
   border: 2px solid #7063ff;
   border-radius: 30px;
+  bottom: 0px;
   font-size: 15px;
   font-weight: 600;
   color: #7063ff;
@@ -454,12 +414,17 @@ const TimeInfoBtn = styled.button`
 const GoPayBtn = styled.button`
   position: absolute;
   bottom: 0px;
-  background: #7063ff;
+  background: gray;
   border: 0px;
   font-size: 20px;
   color: white;
   width: 100%;
   height: 80px;
+
+  &:hover {
+    background: #7063ff;
+    color: white;
+  }
 `;
 
 const SeatsButtonContainer = styled.div`

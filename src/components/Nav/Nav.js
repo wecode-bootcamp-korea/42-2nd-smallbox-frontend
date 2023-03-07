@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import logo from './images/smallbox_logo.png';
 import searchIcon from './images/icon_search.png';
 import loginIcon from './images/icon_login.png';
@@ -44,6 +44,7 @@ function Nav() {
   const filteredRecommendData = recommendData.movies.filter(item =>
     item.name.replace(' ', '').includes(searchInput)
   );
+
   return (
     <NavWrapper scrollposition={scrollPosition}>
       <MenuWrapper>
@@ -78,7 +79,16 @@ function Nav() {
         {searchInput && (
           <RecommendSearch>
             {filteredRecommendData.map(item => {
-              return <SearchedLink key={item.id}>{item.name}</SearchedLink>;
+              return (
+                <SearchedLink
+                  onClick={() => {
+                    navigate(`/movieDetail/${item.id}`);
+                  }}
+                  key={item.id}
+                >
+                  {item.name}
+                </SearchedLink>
+              );
             })}
           </RecommendSearch>
         )}

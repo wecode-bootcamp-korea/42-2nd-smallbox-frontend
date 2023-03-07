@@ -8,11 +8,14 @@ import LogoImg from './img/smallbox_logo.png';
 export default function PaymentApproval() {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [paymentData, setPaymentData] = useState([]);
+
   const PG_TOKEN = location.search.split('=')[1];
   const APP_ADMIN_KEY = process.env.REACT_APP_ADMIN_KEY;
   const TID = localStorage.getItem('tid');
   const USER_TOKEN = localStorage.getItem('token');
+  const ORDER_NUMBER = localStorage.getItem('orderNumber');
 
   useEffect(() => {
     fetch('/v1/payment/approve', {
@@ -36,7 +39,7 @@ export default function PaymentApproval() {
   }, []);
 
   const onFinalResult = () => {
-    fetch('http://10.58.52.168:3000/orders/payment', {
+    fetch('http://43.200.63.91:3000/orders/payment', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json;charset=utf-8',
@@ -47,17 +50,17 @@ export default function PaymentApproval() {
         // orderNumber,
       }),
     })
+      .then(res => res.json())
       .then(result => {
-        // console.log(paymentData);
-        // console.log(result);
-        // console.log(USER_TOKEN);
+        localStorage.setItem('orderNumber', result.orderNumber);
       })
-      .then(navigate('/'));
+      .then(navigate('/payment/result'));
   };
+
   return (
     <PaymentApprovalContainer>
       <PaymentContainer>
-        <SelectMovieHeader text="결제선택" />
+        {/* <SelectMovieHeader text="결제선택" /> */}
         <MovieInfoContainer>
           <PropagateLoader color="#7063FF" />
           <PaymentApprovalTitle>결제가 진행중입니다</PaymentApprovalTitle>
@@ -65,35 +68,27 @@ export default function PaymentApproval() {
             아래 버튼을 누르면 결제가 완료됩니다
           </PaymentApprovalContext>
           <KakaoPayBtn onClick={onFinalResult}>결제 완료</KakaoPayBtn>
+          {/* <SmallBoxLogoImg src={LogoImg} /> */}
         </MovieInfoContainer>
-        <CashInfoContainer>
-          <SmallBoxLogoImg src={LogoImg} />
-        </CashInfoContainer>
+        {/* <CashInfoContainer /> */}
       </PaymentContainer>
     </PaymentApprovalContainer>
   );
 }
 
-const MOVIE_INFO = [
-  { id: 1, index: '상영관', info: 'theater' },
-  { id: 2, index: '상영등급', info: 'rating' },
-  { id: 3, index: '날짜', info: 'date' },
-  { id: 4, index: '상영시간', info: 'time', end: 'end_time' },
-  { id: 5, index: '인원', info: 'date' },
-  { id: 6, index: '좌석', info: 'date' },
-];
-
 const PaymentApprovalContainer = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
 `;
 const PaymentContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 1000px;
+  align-items: center;
+  width: 100%;
   height: 700px;
-  border: 1px solid lightgray;
+  // border: 1px solid lightgray;
 `;
 
 const MovieInfoContainer = styled.div`
@@ -101,7 +96,7 @@ const MovieInfoContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 130px;
+  margin-top: 200px;
   width: 1000px;
 `;
 
@@ -144,7 +139,7 @@ const CashInfoContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 150px;
+  height: 200px;
   bottom: 0px;
   background: #dfdfdf;
   border-top: 1px solid lightgray;

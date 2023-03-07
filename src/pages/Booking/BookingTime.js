@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import dayIcon from './images/icon_day.png';
 import nightIcon from './images/icon_night.png';
+import BookingTimeButton from './BookingTimeButton';
+import { previousDay } from 'date-fns';
 
-function BookingTime() {
+function BookingTime({ setSelectedTime, selectedTime, selectedTimetableData }) {
   const [timeData, setTimeData] = useState([]);
-
-  useEffect(() => {
-    fetch('/data/bookingTimeData.json')
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        setTimeData(data.times);
-      });
-  }, []);
 
   return (
     <BookingTimeContainer>
@@ -28,27 +20,25 @@ function BookingTime() {
         </DayNightIcons>
       </BookingTop>
       <BookingBottom>
-        {timeData.map(item => {
+        {selectedTimetableData.map(item => {
           return (
-            <TimeSelection key={item.id}>
-              <TimeSpanStartToEnd>
-                <TimeSpanStart>{item.start_time}</TimeSpanStart>
-                <TimeSpanEnd>{item.end_time}</TimeSpanEnd>
-              </TimeSpanStartToEnd>
-              <Line />
-              <TimeSpanSeat>{item.seat}</TimeSpanSeat>
-            </TimeSelection>
+            <BookingTimeButton
+              key={item.id}
+              item={item}
+              value={item.id}
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+              selectedTimetableData={selectedTimetableData}
+            />
           );
         })}
       </BookingBottom>
     </BookingTimeContainer>
   );
 }
-
 const BookingTimeContainer = styled.div`
   width: 500px;
   height: 800px;
-  border: 1px solid lightgray;
 `;
 
 const BookingTop = styled.div`
@@ -63,7 +53,7 @@ const BookingTop = styled.div`
 const BookingTitle = styled.h2`
   margin: 0 auto;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
 `;
 
 const DayNightIcons = styled.div`
@@ -87,56 +77,6 @@ const BookingBottom = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   padding: 20px;
   gap: 15px;
-`;
-
-const TimeSelection = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 90px;
-  height: 90px;
-  border-radius: 10px;
-  border: 0px;
-  background: #b2b2b2;
-
-  &:hover {
-    background: #7063ff;
-    cursor: pointer;
-  }
-`;
-
-const TimeSpanStartToEnd = styled.div`
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 5px;
-  height: 65px;
-`;
-
-const TimeSpanStart = styled.span`
-  font-size: 22px;
-  color: white;
-`;
-
-const TimeSpanEnd = styled.span`
-  font-size: 18px;
-  color: white;
-`;
-
-const Line = styled.div`
-  width: 90px;
-  border-bottom: 1px solid white;
-`;
-
-const TimeSpanSeat = styled.span`
-  font-size: 12px;
-  color: white;
-  margin: 5px 0px;
 `;
 
 export default BookingTime;

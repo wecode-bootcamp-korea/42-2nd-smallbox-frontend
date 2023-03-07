@@ -3,26 +3,14 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BigIconChange from './BigIconChange';
 
-const SelectMovieMid = ({ movieInfoForm, buttonColor }) => {
-  const [movieList, setMovieList] = useState([]);
-  const movieListArr = Object.values(movieList);
-
-  // useEffect(() => {
-  //   fetch('/data/movieSelect.json')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       setMovieList(data.options.movies);
-  //     });
-  // }, []);
-
-  useEffect(() => {
-    fetch('http://10.58.52.126:3000/ticketing')
-      .then(response => response.json())
-      .then(data => {
-        setMovieList(data.options.movies);
-      });
-  }, []);
-
+const SelectMovieMid = ({
+  movieInfoForm,
+  buttonColor,
+  setSelectedMovie,
+  selectedMovie,
+  selectMovie,
+  movieList,
+}) => {
   return (
     <>
       <WholeTitle>
@@ -37,46 +25,48 @@ const SelectMovieMid = ({ movieInfoForm, buttonColor }) => {
             <TableLink>가나다순</TableLink>
           </li>
         </TableUl>
-        <div className="tc">
-          {movieListArr.map(list => {
+        <Tc>
+          {movieList.map(list => {
             return (
               <BigIconChange
                 key={list.id}
                 list={list}
                 movieInfoForm={movieInfoForm}
                 buttonColor={buttonColor}
+                selectMovie={selectMovie}
+                selectedMovie={selectedMovie}
               />
             );
           })}
-        </div>
+        </Tc>
         <div />
       </TableWrap>
     </>
   );
 };
-const TableWrap = styled.div`
-  margin-left: 25px;
-`;
+const TableWrap = styled.div``;
 
 const TableUl = styled.ul`
   margin: 0;
   table-layout: fixed;
-  display: table;
-  width: 230px;
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  grid-template-columns: 1fr 1fr;
 
   li {
-    width: 34%;
+    width: 100px;
     display: table-cell;
-    padding-left: 55px;
   }
 `;
 const TableLink = styled(Link)`
   display: block;
-  width: 100%;
+  width: 100px;
   text-align: center;
   font-size: 15px;
   line-height: 35px;
   height: 35px;
+  margin-top: 20px;
 
   ::after {
     content: '';
@@ -84,7 +74,7 @@ const TableLink = styled(Link)`
     left: 0;
     display: block;
     height: 2px;
-    width: 100%;
+    width: 100px;
     background-color: #828282;
 
     &active {
@@ -98,18 +88,30 @@ const TableLink = styled(Link)`
 
 const WholeTitle = styled.div`
   position: relative;
-  width: 85%;
-  margin: 0 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow-y: scroll;
 
   span {
+    justify-self: center;
     border: 2px solid #7063ff;
     border-radius: 15px;
     display: block;
     line-height: 28px;
+    width: 300px;
     height: 33px;
     color: #7063ff;
     text-align: center;
   }
+`;
+
+const Tc = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default SelectMovieMid;

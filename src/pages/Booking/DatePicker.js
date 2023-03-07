@@ -1,176 +1,148 @@
 import React, { useEffect, useState } from 'react';
-import styles from './DatePicker.module.css';
-import {
-  addDays,
-  addMonths,
-  differenceInMonths,
-  format,
-  isSameDay,
-  lastDayOfMonth,
-  startOfMonth,
-} from 'date-fns';
-import { ko } from 'date-fns/locale';
+import Calendar from 'react-calendar';
+import styled from 'styled-components';
 
 export default function DatePicker({
-  endDate,
   selectDate,
-  getSelectedDay,
-  color,
-  labelFormat,
+  setSelectedDate,
+  selectedDate,
 }) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const firstSection = { marginLeft: '0px' };
-  const startDate = new Date();
-  const lastDate = addDays(startDate, endDate || 90);
-  const primaryColor = color || 'rgb(54, 105, 238)';
-  const selectedStyle = {
-    fontWeight: 'bold',
-    width: '80px',
-    height: '45px',
-    borderRadius: '10px',
-    border: `2px solid ${primaryColor}`,
-    color: `white`,
-    background: primaryColor,
-    transition: `0.3s`,
-  };
-  const buttonColor = { display: `none`, background: primaryColor };
-  const labelColor = { color: primaryColor };
+  const [value, onChange] = useState(new Date('2023-03-08'));
 
-  const getStyles = day => {
-    if (isSameDay(day, selectedDate)) {
-      return selectedStyle;
+  function leftPad(value) {
+    if (value >= 10) {
+      return value;
     }
-    return null;
-  };
 
-  const getId = day => {
-    if (isSameDay(day, selectedDate)) {
-      return 'selected';
-    } else {
-      return '';
-    }
-  };
-
-  function renderDays() {
-    const dayFormat = 'E';
-    const dateFormat = 'd';
-    const months = [];
-    let days = [];
-    for (let i = 0; i <= differenceInMonths(lastDate, startDate); i++) {
-      let start, end;
-      const month = startOfMonth(addMonths(startDate, i));
-      start = i === 0 ? Number(format(startDate, dateFormat)) - 1 : 0;
-      end =
-        i === differenceInMonths(lastDate, startDate)
-          ? Number(format(lastDate, 'd'))
-          : Number(format(lastDayOfMonth(month), 'd'));
-      for (let j = start; j < end; j++) {
-        days.push(
-          <div
-            id={`${getId(addDays(startDate, j))}`}
-            className={styles.dateDayItem}
-            style={getStyles(addDays(month, j))}
-            key={addDays(month, j)}
-            onClick={() => onDateClick(addDays(month, j))}
-          >
-            <div className={styles.dayLabel}>
-              {format(addDays(month, j), dayFormat, { locale: ko })}
-            </div>
-            <div className={styles.dateLabel}>
-              {format(addDays(month, j), dateFormat, { locale: ko })}
-            </div>
-          </div>
-        );
-      }
-      months.push(
-        <div className={styles.monthContainer} key={month}>
-          <span className={styles.monthYearLabel} style={labelColor}>
-            {format(month, labelFormat || 'MMMM yyyy', { locale: ko })}
-          </span>
-          <div
-            className={styles.daysContainer}
-            style={i === 0 ? firstSection : null}
-          >
-            {days}
-          </div>
-        </div>
-      );
-      days = [];
-    }
-    return (
-      <div id="container" className={styles.dateListScrollable}>
-        {months}
-      </div>
-    );
+    return `0${value}`;
   }
 
-  const onDateClick = day => {
-    setSelectedDate(day);
-    if (getSelectedDay) {
-      getSelectedDay(day);
-    }
-  };
+  function toStringByFormatting(source, delimiter = '-') {
+    const year = source.getFullYear();
+    const month = leftPad(source.getMonth() + 1);
+    const day = leftPad(source.getDate());
+
+    return [year, month, day].join(delimiter);
+  }
 
   useEffect(() => {
-    if (getSelectedDay) {
-      if (selectDate) {
-        getSelectedDay(selectDate);
-      } else {
-        getSelectedDay(startDate);
-      }
-    }
-  }, []);
+    setSelectedDate(prev => toStringByFormatting(value));
+  }, [value]);
 
-  useEffect(() => {
-    if (selectDate) {
-      if (!isSameDay(selectedDate, selectDate)) {
-        setSelectedDate(selectDate);
-        setTimeout(() => {
-          let view = document.getElementById('selected');
-          if (view) {
-            view.scrollIntoView({
-              behavior: 'smooth',
-              inline: 'center',
-              block: 'nearest',
-            });
-          }
-        }, 20);
-      }
-    }
-  }, [selectDate]);
-
-  const nextWeek = () => {
-    const e = document.getElementById('container');
-    const width = e ? e.getBoundingClientRect().width : null;
-    e.scrollLeft += width - 60;
-  };
-
-  const prevWeek = () => {
-    const e = document.getElementById('container');
-    const width = e ? e.getBoundingClientRect().width : null;
-    e.scrollLeft -= width - 60;
-  };
   return (
-    <div className={styles.container}>
-      <div className={styles.buttonWrapper}>
-        <button
-          className={styles.button}
-          style={buttonColor}
-          onClick={prevWeek}
-        >
-          ←
-        </button>
-      </div>
-      {renderDays()}
-      <div className={styles.buttonWrapper}>
-        <button
-          className={styles.button}
-          style={buttonColor}
-          onClick={nextWeek}
-        >
-          →
-        </button>
-      </div>
-    </div>
+    <StyledCalendar
+      isChecked={selectedDate.includes(toStringByFormatting(value))}
+    >
+      <Title>날짜</Title>
+      <Calendar
+        onChange={onChange}
+        value={value}
+        locale="ko"
+        showNeighboringMonth={false}
+      />
+    </StyledCalendar>
   );
 }
+
+const Title = styled.h2`
+  font-weight: 700;
+  font-size: 20px;
+`;
+
+const StyledCalendar = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  background: white;
+
+  .react-calendar {
+    width: 150px;
+  }
+
+  .react-calendar__navigation {
+    display: flex;
+    justify-content: center;
+  }
+
+  .react-calendar__navigation__arrow {
+    border: 0px;
+    display: none;
+  }
+
+  .react-calendar__navigation__label {
+    border: 0px;
+    margin: 20px 0px;
+    font-weight: 600;
+    font-size: 25px;
+    color: #7063ff;
+    background: white;
+  }
+
+  .react-calendar__month-view__weekdays__weekday {
+    display: none;
+  }
+
+  .react-calendar__month-view__weekdays {
+    display: flex;
+    justify-items: center;
+  }
+
+  .react-calendar__month-view {
+    overflow: hidden;
+  }
+
+  .react-calendar__month-view__days {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: -520px;
+  }
+
+  .react-calendar__month-view__days__day {
+    border: 0px;
+    padding: 15px 15px;
+    font-size: 20px;
+    background: white;
+    border-radius: 30px;
+    transition: 0.3s;
+  }
+
+  .react-calendar__month-view__days__day {
+    margin: 0px !important;
+  }
+
+  .react-calendar__tile {
+    border: 1px solid lightgray;
+  }
+
+  .react-calendar__tile--now {
+    color: #7063ff;
+    background: white;
+  }
+
+  .react-calendar__tile--rangeStart {
+    background: #7063ff;
+    border: 1px solid #7063ff;
+    color: white !important;
+    transition: 0.3s;
+  }
+
+  .react-calendar__tile:enabled:hover {
+    background: #7063ff;
+    border-radius: 30px;
+    padding: 20px 20px;
+    font-weight: bold;
+    color: white;
+    transition: 0.3s;
+  }
+
+  .react-calendar__month-view__days__day--weekend {
+    color: red;
+  }
+
+  .date .saturday {
+    color: blue;
+  }
+`;
