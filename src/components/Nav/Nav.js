@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from './images/smallbox_logo.png';
 import searchIcon from './images/icon_search.png';
 import loginIcon from './images/icon_login.png';
@@ -12,6 +12,12 @@ function Nav() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const [recommendData, loading, error] = useFetch('/data/searchResult.json');
+
+  const navigate = useNavigate();
+
+  const goToPage = path => {
+    navigate(path);
+  };
 
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
@@ -39,12 +45,33 @@ function Nav() {
     item.name.replace(' ', '').includes(searchInput)
   );
   return (
-    <NavWrapper scrollPosition={scrollPosition}>
+    <NavWrapper scrollposition={scrollPosition}>
       <MenuWrapper>
-        <LogoImg alt="logo" src={logo} scrollPosition={scrollPosition} />
-        <MenuName scrollPosition={scrollPosition}>영화</MenuName>
-        <MenuName scrollPosition={scrollPosition}>예매</MenuName>
-        <MenuName scrollPosition={scrollPosition}>영화관 소개</MenuName>
+        <LogoImg
+          alt="logo"
+          src={logo}
+          onClick={() => {
+            goToPage('/');
+          }}
+          scrollposition={scrollPosition}
+        />
+        <MenuName scrollposition={scrollPosition}>영화</MenuName>
+        <MenuName
+          onClick={() => {
+            goToPage('/booking');
+          }}
+          scrollposition={scrollPosition}
+        >
+          예매
+        </MenuName>
+        <MenuName
+          onClick={() => {
+            goToPage('/theater');
+          }}
+          scrollposition={scrollPosition}
+        >
+          영화관 소개
+        </MenuName>
       </MenuWrapper>
 
       <SearchWrapper ref={searchWrapper}>
@@ -59,20 +86,21 @@ function Nav() {
           placeholder="검색"
           onChange={handleSearchInput}
           value={searchInput}
-          scrollPosition={scrollPosition}
+          scrollposition={scrollPosition}
         />
         <SearchIcon alt="serachIcon" src={searchIcon} />
       </SearchWrapper>
       <IconWrapper>
         <IconImg
+          onClick={() => goToPage('/login')}
           alt="loginIcon"
           src={loginIcon}
-          scrollPosition={scrollPosition}
+          scrollposition={scrollPosition}
         />
         <IconImg
           alt="mypageIcon"
           src={mypageIcon}
-          scrollPosition={scrollPosition}
+          scrollposition={scrollPosition}
         />
       </IconWrapper>
     </NavWrapper>
@@ -88,7 +116,7 @@ const NavWrapper = styled.div`
   top: 0;
   width: 100vw;
   height: 80px;
-  background: ${props => (props.scrollPosition > 100 ? '#9971ff' : 'white')};
+  background: ${props => (props.scrollposition > 100 ? '#9971ff' : 'white')};
   transition: 0.2s ease-out;
   z-index: 100;
 `;
@@ -105,18 +133,18 @@ const LogoImg = styled.img`
   width: 200px;
   cursor: pointer;
   filter: ${props =>
-    props.scrollPosition > 100 ? 'invert(100%)' : 'invert(0%)'};
+    props.scrollposition > 100 ? 'invert(100%)' : 'invert(0%)'};
 `;
 
-const MenuName = styled(Link)`
+const MenuName = styled.span`
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
   margin-top: 5px;
-  color: ${props => (props.scrollPosition > 100 ? 'white' : 'black')};
+  color: ${props => (props.scrollposition > 100 ? 'white' : 'black')};
 
   &:hover {
-    color: ${props => (props.scrollPosition > 100 ? 'black' : '#7063ff;')};
+    color: ${props => (props.scrollposition > 100 ? 'black' : '#7063ff;')};
     transition: 0.3s;
   }
 `;
@@ -160,7 +188,7 @@ const SearchedLink = styled(Link)`
 `;
 
 const SearchInput = styled.input`
-  width: ${props => (props.scrollPosition > 100 ? '600px' : '300px')};
+  width: ${props => (props.scrollposition > 100 ? '600px' : '300px')};
   height: 40px;
   border: 0px;
   border-radius: 30px;
@@ -173,7 +201,7 @@ const SearchInput = styled.input`
 
   &:focus {
     width: 600px;
-    color: ${props => (props.scrollPosition > 100 ? '#9971ff' : 'white')};
+    color: ${props => (props.scrollposition > 100 ? '#9971ff' : 'white')};
     background: ${props =>
       props.scrollPosition > 100 ? 'lightgray' : '#9971ff'};
     transition: 0.3s ease-out;
@@ -191,7 +219,7 @@ const IconImg = styled.img`
   width: 25px;
   cursor: pointer;
   filter: ${props =>
-    props.scrollPosition > 100 ? 'invert(100%)' : 'invert(0%)'};
+    props.scrollposition > 100 ? 'invert(100%)' : 'invert(0%)'};
 `;
 
 const IconWrapper = styled.div`

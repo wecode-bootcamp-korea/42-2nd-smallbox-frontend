@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 import CharmingGraph from './CharmingGraph';
 import MovieReview from './MovieReview';
 import DetailImg from './MovieDetailVideoImage/DetailImg';
@@ -8,9 +9,11 @@ const MovieDetail = () => {
   const [movieData, setMovieData] = useState({});
   const [scrollPosition, setScrollPosition] = useState(0);
   const [toggleBtn, setToggleBtn] = useState(true);
+  const params = useParams();
+  console.log(params);
 
   const {
-    movieTumbNailImg,
+    movieThumbNailImg,
     movieName,
     movieNameInEnligh,
     director,
@@ -18,13 +21,12 @@ const MovieDetail = () => {
     country,
     movieAgeRating,
     movieRunningTime,
-    moiveGenre,
+    movieGenre,
     movieOpeningDate,
     movieDetailDescription,
-    // movieStillCut,
+    movieStillCut,
     // movieTrailer,
   } = movieData;
-
   const handleScroll = () => {
     const { scrollY } = window;
     scrollY > 200 && setToggleBtn(!toggleBtn);
@@ -43,7 +45,7 @@ const MovieDetail = () => {
   });
 
   useEffect(() => {
-    fetch('http://10.58.52.179:3000/movies/detail?movieId=10', {
+    fetch(`http://10.58.52.168:3000/movies/detail?movieId=${params.id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
     })
@@ -65,7 +67,7 @@ const MovieDetail = () => {
       <WholeContainer>
         <MovieBox>
           <MovieAndDetail>
-            <MoviePoster src={movieTumbNailImg} alt="포스터" />
+            <MoviePoster src={movieThumbNailImg} alt="포스터" />
             <AsidePoster>
               <MovieTitle>{movieName}</MovieTitle>
               <EnglishTitle>{movieNameInEnligh}</EnglishTitle>
@@ -82,11 +84,11 @@ const MovieDetail = () => {
                 {movieData.director && (
                   <ul>
                     <DetailContext>{director}</DetailContext>
-                    <DetailContext>{movieActors.join(' ')}</DetailContext>
+                    <DetailContext>{movieActors?.join(' ')}</DetailContext>
                     <DetailContext>{country}</DetailContext>
                     <DetailContext>{movieAgeRating}세 관람가</DetailContext>
-                    <DetailContext>{movieRunningTime}분</DetailContext>
-                    <DetailContext>{moiveGenre.join(' ')}</DetailContext>
+                    <DetailContext>{movieRunningTime}</DetailContext>
+                    <DetailContext>{movieGenre?.join(' ')}</DetailContext>
                     <DetailContext>{movieOpeningDate}</DetailContext>
                   </ul>
                 )}
@@ -100,7 +102,7 @@ const MovieDetail = () => {
             <DesContent>
               <span>{movieDetailDescription}</span>
             </DesContent>
-            <DetailImg />
+            <DetailImg movieStillCut={movieStillCut} />
           </DesBox>
           <CharmingGraph />
           <MovieReview />

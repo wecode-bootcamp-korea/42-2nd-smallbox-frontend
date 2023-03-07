@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import styled from 'styled-components';
@@ -9,13 +9,13 @@ import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
 import './VideoSwiper.css';
 
 // import required modules
 import { EffectFade, Pagination, Navigation } from 'swiper';
 
 export default function App() {
+  const [movieData, setMovieData] = useState({});
   return (
     <StyledSwiper
       slidesPerView={1}
@@ -29,6 +29,10 @@ export default function App() {
       effect="fade"
       className="mySwiper"
     >
+      {/* <SwiperSlide>
+        <Videos movieData={movieData} />
+      </SwiperSlide> */}
+
       {VIDEO_DATA.map(item => (
         <SwiperSlide key={item.id}>
           <Videos item={item} />
@@ -40,7 +44,8 @@ export default function App() {
 
 const StyledSwiper = styled(Swiper)`
   width: 100%;
-  height: 450px;
+  height: 650px;
+  background-color: black;
 
   .swiper-pagination .swiper-pagination-bullet {
     opacity: 0.8;
@@ -58,16 +63,15 @@ const StyledSwiper = styled(Swiper)`
 
 const VIDEO_DATA = [
   {
-    id: 1,
+    id: 13,
     title: '민환의 초상',
     video_url:
       'https://user-images.githubusercontent.com/118322531/221493173-553d56d7-c9b0-4b35-a9a9-51ab2dd85c25.mp4',
     description:
       '명성과 부를 쌓으면서 민환은 성공에는 대가가 따른다는 사실을 깨닫고 진정한 행복과 성취감을 찾기 위해 과거의 악마와 맞서야 한다. ',
-    link: '#',
   },
   {
-    id: 2,
+    id: 12,
     title: '선키스드 드림',
     video_url:
       'https://user-images.githubusercontent.com/118322531/222043814-ce1566f5-6de1-4d5d-867f-f6862ca58ccc.mp4',
@@ -76,7 +80,7 @@ const VIDEO_DATA = [
     link: '#',
   },
   {
-    id: 3,
+    id: 9,
     title: '에밀리의 불행한 여름',
     video_url:
       'https://user-images.githubusercontent.com/118322531/222048296-83bbffc1-bacc-4627-a06b-84bf508ce1bc.mp4',

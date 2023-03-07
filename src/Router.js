@@ -28,7 +28,7 @@ const Router = () => {
         <Route path="/users/login" element={<KaKaoAPI />} />
         <Route path="/seats" elememt={<Seats />} />
         <Route path="/movieList" element={<MovieList />} />
-        <Route path="/movieDetail" element={<MovieDetail />} />
+        <Route path="/movieDetail/:id" element={<MovieDetail />} />
         <Route path="/selectmovie" element={<SelectMovie />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/payment/approval" element={<PaymentApproval />} />

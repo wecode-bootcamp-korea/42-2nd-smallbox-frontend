@@ -7,7 +7,7 @@ import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import styled from 'styled-components';
 
-const DetailImg = () => {
+const DetailImg = ({ movieStillCut }) => {
   const items = [
     {
       src: 'https://cdn.pixabay.com/photo/2016/10/06/05/19/couple-1718244__480.jpg',
