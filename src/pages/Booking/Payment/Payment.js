@@ -3,20 +3,19 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import SelectMovieHeader from '../SelectMovieHeader';
 
-export default function Payment() {
-  const [movieData, setMovieData] = useState([]);
-
+export default function Payment({
+  selectedData,
+  selectedSeat,
+  selectedMovieData,
+  selectedTimetableData,
+  finalPeopleData,
+  finalSeats,
+}) {
   const APP_ADMIN_KEY = process.env.REACT_APP_ADMIN_KEY;
+  const USER_TOKEN = localStorage.getItem('token');
 
-  useEffect(() => {
-    fetch('/data/movieData.json')
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        setMovieData(data.movie[0]);
-      });
-  }, []);
+  const quantity = selectedSeat.length;
+  const total_amount = 12000 * selectedSeat.length;
 
   const onKakaoPay = () => {
     fetch('/v1/payment/ready', {
@@ -30,9 +29,9 @@ export default function Payment() {
         partner_order_id: '1',
         partner_user_id: '2',
         item_name: 'ticket',
-        quantity: '4',
-        total_amount: '240000',
-        tax_free_amount: '10000',
+        quantity: quantity,
+        total_amount: total_amount,
+        tax_free_amount: '0',
         approval_url: 'http://localhost:3000/payment/approval',
         cancel_url: 'http://localhost:3000/payment/cancel',
         fail_url: 'http://localhost:3000/payment/fail',
@@ -43,7 +42,33 @@ export default function Payment() {
         localStorage.setItem('tid', result.tid);
         window.location.href = result.next_redirect_pc_url;
       });
+
+    fetch('http://43.200.63.91:3000/ticketings/seats/reservation', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json;charset=utf-8',
+        Authorization: USER_TOKEN,
+      },
+      body: JSON.stringify({
+        timeTableSeatId: selectedSeat,
+      }),
+    }).then(result => {
+      console.log(result);
+    });
   };
+
+  const MOVIE_INFO = [
+    { id: 1, index: '상영관', info: 'theater' },
+    {
+      id: 2,
+      index: '상영등급',
+      info: `${selectedMovieData[0]?.rating}` + '세 이상',
+    },
+    { id: 3, index: '날짜', info: `${selectedTimetableData[0]?.date}` },
+    { id: 4, index: '상영시간', info: `${selectedData.time}` },
+    { id: 5, index: '인원', info: `${selectedSeat.length}` + '명' },
+    { id: 6, index: '좌석', info: `${selectedData.seatName.join(',')}` },
+  ];
 
   return (
     <Container>
@@ -51,17 +76,20 @@ export default function Payment() {
         <SelectMovieHeader text="결제선택" />
         <MovieInfoContainer>
           <PosterWrapper>
-            <PosterImg alt="poster" src={movieData.image_url} />
+            <PosterImg
+              alt="poster"
+              src={selectedMovieData[0]?.movieThumbnail}
+            />
           </PosterWrapper>
           <RightSection>
-            <MovieTitle>{movieData.name}</MovieTitle>
+            <MovieTitle>{selectedMovieData[0]?.movieTitle}</MovieTitle>
             <Line />
             <MovieDataUl>
               {MOVIE_INFO.map(item => {
                 return (
                   <li key={item.id}>
                     <MovieDataIndex>{item.index}</MovieDataIndex>
-                    <MovieDataContext>{movieData[item.info]}</MovieDataContext>
+                    <MovieDataContext>{item.info}</MovieDataContext>
                   </li>
                 );
               })}
@@ -102,15 +130,6 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const MOVIE_INFO = [
-  { id: 1, index: '상영관', info: 'theater' },
-  { id: 2, index: '상영등급', info: 'rating' },
-  { id: 3, index: '날짜', info: 'date' },
-  { id: 4, index: '상영시간', info: 'time', end: 'end_time' },
-  { id: 5, index: '인원', info: 'date' },
-  { id: 6, index: '좌석', info: 'date' },
-];
-
 const CASH_INFO = [
   { id: 1, index: '할인', info: '0' },
   { id: 2, index: '장당', info: '12,000' },
@@ -120,28 +139,28 @@ const PaymentContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 1000px;
-  height: 700px;
-  border: 1px solid lightgray;
+  width: 100%;
+  height: 800px;
 `;
 
 const MovieInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 50px;
-  width: 1000px;
+  margin-top: 100px;
+  width: 100%;
 `;
 
 const PosterWrapper = styled.div`
   display: flex;
-  width: 260px;
-  height: 380px;
+  width: 300px;
+  height: 420px;
 `;
 
 const PosterImg = styled.img`
   width: 100%;
   height: 100%;
+  border-radius: 15px;
 `;
 
 const RightSection = styled.div`
@@ -185,8 +204,9 @@ const KakaoPayBtn = styled.button`
   position: absolute;
   width: 300px;
   bottom: 0px;
-  height: 50px;
+  height: 70px;
   border: 0px;
+  border-radius: 10px;
   background: gray;
   color: white;
   font-size: 15px;

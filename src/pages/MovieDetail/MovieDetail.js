@@ -81,23 +81,13 @@ const MovieDetail = () => {
                     </ul>
 
                     <ul>
-                      <DetailContext>{.director}</DetailContext>
-                      <DetailContext>
-                        {.movieActors?.join(' ')}
-                      </DetailContext>
-                      <DetailContext>{.country}</DetailContext>
-                      <DetailContext>
-                        {.movieAgeRating}세 관람가
-                      </DetailContext>
-                      <DetailContext>
-                        {.movieRunningTime}분
-                      </DetailContext>
-                      <DetailContext>
-                        {.movieGenre?.join(' ')}
-                      </DetailContext>
-                      <DetailContext>
-                        {.movieOpeningDate}
-                      </DetailContext>
+                      <DetailContext>{director}</DetailContext>
+                      <DetailContext>{movieActors?.join(' ')}</DetailContext>
+                      <DetailContext>{country}</DetailContext>
+                      <DetailContext>{movieAgeRating}세 관람가</DetailContext>
+                      <DetailContext>{movieRunningTime}분</DetailContext>
+                      <DetailContext>{movieGenre?.join(' ')}</DetailContext>
+                      <DetailContext>{movieOpeningDate}</DetailContext>
                     </ul>
                   </DetailBox>
                   <BookingButton>예매하기🎬</BookingButton>
@@ -107,7 +97,7 @@ const MovieDetail = () => {
                 <Destitle>줄거리</Destitle>
                 <br />
                 <DesContent>
-                  <span>{.movieDetailDescription}</span>
+                  <span>{movieDetailDescription}</span>
                 </DesContent>
                 <DetailImg />
               </DesBox>

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
+import SelectMovieHeader from './SelectMovieHeader';
 
-const BigIconChange = ({ list, movieInfoForm }) => {
-  const { movieTitle, rating, releaseDate, movieThumbnail } = list;
+const BigIconChange = ({ list, movieInfoForm, selectMovie, selectedMovie }) => {
+  const { movieTitle, rating, releaseDate, movieThumbnail, id } = list;
+  const [isChecked, setIsChecked] = useState(false);
 
   const ageColor = {
     12: theme.ageGreen,
@@ -13,63 +15,84 @@ const BigIconChange = ({ list, movieInfoForm }) => {
   };
 
   return (
-    <BigIconList>
-      {movieInfoForm === 'thumnail' ? (
-        <Link to="#">
-          <BigIconImg>
-            <img src={movieThumbnail} alt="movieImg" />
-          </BigIconImg>
-          <BigIconText>
-            <MovieTitle>
-              <AgeLimit color={ageColor[rating]}>{rating}</AgeLimit>&nbsp;
-              {movieTitle}
-            </MovieTitle>
-            <MovieDataUl>
-              <MovieDatali>
-                <em>예매율</em>
-                <span>20%</span>
-              </MovieDatali>
-              <MovieDatali>
-                <em>개봉일</em>
-                <span>{releaseDate}</span>
-              </MovieDatali>
-            </MovieDataUl>
-          </BigIconText>
-        </Link>
-      ) : (
-        <MovieTitle>
-          <AgeLimit color={ageColor[rating]}>{rating}</AgeLimit>&nbsp;
-          {movieTitle}
-        </MovieTitle>
-      )}
-    </BigIconList>
+    <IconDiv>
+      <BigIconList
+        onClick={() => selectMovie(id)}
+        value={movieTitle}
+        isChecked={selectedMovie === id}
+      >
+        {movieInfoForm === 'thumnail' ? (
+          <BigIconWrapper>
+            <BigIconImg>
+              <img src={movieThumbnail} alt="movieImg" />
+            </BigIconImg>
+            <BigIconText>
+              <MovieTitle>
+                <AgeLimit color={ageColor[rating]}>{rating}</AgeLimit>&nbsp;
+                {movieTitle}
+              </MovieTitle>
+              <MovieDataUl>
+                <MovieDatali>
+                  <em>예매율</em>
+                  <span>20%</span>
+                </MovieDatali>
+                <MovieDatali>
+                  <em>개봉일</em>
+                  <span>{releaseDate}</span>
+                </MovieDatali>
+              </MovieDataUl>
+            </BigIconText>
+          </BigIconWrapper>
+        ) : (
+          <MovieTitle>
+            <AgeLimit color={ageColor[rating]}>{rating}</AgeLimit>&nbsp;
+            {movieTitle}
+          </MovieTitle>
+        )}
+      </BigIconList>
+    </IconDiv>
   );
 };
+
+const IconDiv = styled.div``;
+
+const BigIconWrapper = styled.button`
+  background: transparent;
+  border: 0px;
+`;
 
 const BigIconList = styled.div`
   position: relative;
   overflow: visible;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
-  width: 90%;
+  scale: ${props => (props.isChecked ? '1' : '0.9')};
+  width: 300px;
   display: table;
   table-layout: fixed;
   border-radius: 5px;
   margin-left: 5px;
   cursor: pointer;
+  border: 0px;
+  background: ${props => (props.isChecked ? '#7063ff' : 'white')};
+  transition: 0.3s;
 
   &:hover,
   &:active {
-    color: white;
+    color: white !important;
     background-color: #7063ff;
   }
 `;
 const BigIconImg = styled.span`
   display: table-cell;
   vertical-align: middle;
+  padding: 10px 5px;
 
   img {
     display: block;
+    border-radius: 5px;
     width: 85px;
     height: 105px;
   }

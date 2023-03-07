@@ -20,8 +20,9 @@ function SeatsButton({
         }}
         isChecked={isChecked}
         value={item.seatStatus[0].timeTableSeatId}
+        name={item.seats}
       >
-        {item.seatStatus[0].timeTableSeatId}
+        {item.seats}
       </SeatsBtn>
     );
   }
@@ -31,7 +32,7 @@ function SeatsButton({
   if (item.seatStatus[0].status === '예매 불가능') {
     return (
       <SeatsBtnDisabled key={item.seatStatus[0].timeTableSeatId}>
-        {item.seatStatus[0].timeTableSeatId}
+        {item.seats}
       </SeatsBtnDisabled>
     );
   }
@@ -40,32 +41,36 @@ function SeatsButton({
 export default SeatsButton;
 
 const SeatsBtn = styled.button`
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   padding: 0px;
   color: ${props => (props.isChecked ? `white` : `black`)};
   background: ${props => (props.isChecked ? `#7063ff` : `lightgray`)};
-  border: ${props =>
-    props.isChecked ? `1px solid #7063ff` : `1px solid gray`};
+  border: 0px;
+  border-radius: 4px;
   text-align: center;
+  transition: 0.3s;
 
-  &:active {
-    background: violet;
+  &:hover {
     color: white;
-    border: 1px solid violet;
+    scale: 1.2;
+    background: #7063ff;
+    transition: 0.3s;
   }
 `;
 
 const SeatsBtnNone = styled.button`
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   background: transparent;
   border: 0px;
+  border-radius: 4px;
 `;
 
 const SeatsBtnDisabled = styled.button`
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   background: gray;
   border: 1px solid gray;
+  border-radius: 4px;
 `;

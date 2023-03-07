@@ -8,7 +8,7 @@ import Booking from './pages/Booking/Booking';
 import Login from './pages/Login/Login';
 import Main from './pages/Main/Main';
 import KaKaoAPI from './pages/Login/KakaoAPI';
-import Seats from './pages/Booking/Seats';
+import Seats from './pages/Booking/Seats/Seats';
 import SelectMovie from './pages/Booking/SelectMovie';
 import Payment from './pages/Booking/Payment/Payment';
 import PaymentApproval from './pages/Booking/Payment/PaymentApproval';

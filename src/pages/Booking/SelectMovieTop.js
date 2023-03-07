@@ -35,6 +35,7 @@ const SelectMovieTop = ({ setMovieInfoForm }) => {
 const ContainerTop = styled.div`
   position: relative;
   padding: 30px 0 18px;
+  width: 400px;
   text-align: center;
 
   h2 {

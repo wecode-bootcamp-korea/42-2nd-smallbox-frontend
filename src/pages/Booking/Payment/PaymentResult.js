@@ -4,18 +4,40 @@ import styled, { keyframes } from 'styled-components';
 import CheckMark from './img/check-mark.png';
 
 export default function PaymentResult() {
-  const [movieData, setMovieData] = useState([]);
+  const [resultData, setResultData] = useState([]);
   const navigate = useNavigate();
 
+  const USER_TOKEN = localStorage.getItem('token');
+  const ORDER_NUMBER = localStorage.getItem('orderNumber');
+
+  const resultSeatsList = resultData[0]?.seatDetails.map(item => {
+    return item.seat;
+  });
+
   useEffect(() => {
-    fetch('/data/movieData.json')
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        setMovieData(data.movie[0]);
-      });
+    fetch(`http://43.200.63.91:3000/orders?orderNumber=${ORDER_NUMBER}`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json;charset=utf-8',
+        Authorization: USER_TOKEN,
+      },
+    })
+      .then(response => response.json())
+      .then(response => setResultData(response));
   }, []);
+
+  const onClickMain = () => {
+    return navigate('/');
+  };
+
+  const MOVIE_INFO = [
+    { id: 1, index: '상영관', info: `${resultData[0]?.theaterName}` },
+    { id: 2, index: '상영등급', info: `${resultData[0]?.filmRating}` },
+    { id: 3, index: '날짜', info: `${resultData[0]?.movieDate}` },
+    { id: 4, index: '상영시간', info: `${resultData[0]?.movieTime}` },
+    { id: 5, index: '인원', info: `${resultData[0]?.ticketCount}` },
+    { id: 6, index: '좌석', info: `${resultSeatsList?.join(',')}` },
+  ];
 
   return (
     <PaymentResultContainer>
@@ -24,24 +46,26 @@ export default function PaymentResult() {
       <PaymentContainer>
         <MovieInfoContainer>
           <PosterWrapper>
-            <PosterImg alt="poster" src={movieData.image_url} />
+            <PosterImg alt="poster" src={resultData[0]?.movieImg} />
           </PosterWrapper>
           <RightSection>
-            <MovieTitle>{movieData.name}</MovieTitle>
+            <MovieTitle>{resultData[0]?.movieTitle}</MovieTitle>
             <LineA />
             <MovieDataUl>
               {MOVIE_INFO.map(item => {
                 return (
                   <li key={item.id}>
                     <MovieDataIndex>{item.index}</MovieDataIndex>
-                    <MovieDataContext>{movieData[item.info]}</MovieDataContext>
+                    <MovieDataContext>{item.info}</MovieDataContext>
                   </li>
                 );
               })}
               <LineB />
               <CashInfoWrapper>
                 <CashInfoTitle>결제 금액</CashInfoTitle>
-                <CashTotalContext>24,000</CashTotalContext>
+                <CashTotalContext>
+                  {resultData[0]?.totalAmount}
+                </CashTotalContext>
                 <CashTotalUnit>원</CashTotalUnit>
               </CashInfoWrapper>
               <LineB />
@@ -49,20 +73,10 @@ export default function PaymentResult() {
           </RightSection>
         </MovieInfoContainer>
       </PaymentContainer>
-      <GoMainBtn onClick={navigate('/')}>메인으로 돌아가기</GoMainBtn>
+      <GoMainBtn onClick={() => onClickMain()}>메인으로 돌아가기</GoMainBtn>
     </PaymentResultContainer>
   );
 }
-
-const MOVIE_INFO = [
-  { id: 1, index: '상영관', info: 'theater' },
-  { id: 2, index: '상영등급', info: 'rating' },
-  { id: 3, index: '날짜', info: 'date' },
-  { id: 4, index: '상영시간', info: 'time', end: 'end_time' },
-  { id: 5, index: '인원', info: 'date' },
-  { id: 6, index: '좌석', info: 'date' },
-];
-
 const FadeIn = keyframes`
 0% {
   opacity: 0;

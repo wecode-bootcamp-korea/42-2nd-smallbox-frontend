@@ -4,29 +4,42 @@ import SelectMovieHeader from './SelectMovieHeader';
 import SelectMovieTop from './SelectMovieTop';
 import SelectMovieMid from './SelectMovieMid';
 
-const SelectMovie = () => {
+const SelectMovie = ({
+  selectedMovie,
+  setSelectedMovie,
+  selectMovie,
+  movieList,
+}) => {
   const [movieInfoForm, setMovieInfoForm] = useState('thumnail');
 
   return (
     <BookingPageDiv>
-      <SelectMovieHeader />
       <Movie>
         <SelectMovieTop setMovieInfoForm={setMovieInfoForm} />
-        <SelectMovieMid movieInfoForm={movieInfoForm} />
+        <SelectMovieMid
+          movieInfoForm={movieInfoForm}
+          selectedMovie={selectedMovie}
+          setSelectedMovie={setSelectedMovie}
+          selectMovie={selectMovie}
+          movieList={movieList}
+        />
       </Movie>
     </BookingPageDiv>
   );
 };
 
 const BookingPageDiv = styled.div`
-  width: 75%;
+  width: 400px;
   height: 700px;
+  display: flex;
+  justify-content: center;
   word-wrap: break-word;
   word-break: keep-all;
+  overflow-y: scroll;
 `;
 
 const Movie = styled.div`
-  width: 30%;
+  width: 400px;
 `;
 
 export default SelectMovie;

@@ -3,7 +3,15 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import resetIcon from './resetIcon.png';
 
-const SelectMovieHeader = ({ text }) => {
+const SelectMovieHeader = ({
+  text,
+  setSeatPageToggle,
+  setPaymentPageToggle,
+}) => {
+  const reset = () => {
+    setSeatPageToggle(false);
+    setPaymentPageToggle(false);
+  };
   return (
     <div>
       <BookingContainer>
@@ -11,7 +19,7 @@ const SelectMovieHeader = ({ text }) => {
           <HeaderTitle>{text}</HeaderTitle>
           <HeaderLeftUl>
             <li>
-              <Link to="#">
+              <Link onClick={() => reset()}>
                 <LeftImg src={resetIcon} alt="다시예매하기" />
                 <ResetText>예매 다시하기</ResetText>
               </Link>
@@ -33,7 +41,7 @@ const SelectMovieHeader = ({ text }) => {
 
 const BookingContainer = styled.div`
   position: relative;
-  width: 100%;
+  width: 1350px;
   word-wrap: break-word;
   word-break: keep-all;
 `;
@@ -46,7 +54,11 @@ const BookingHeader = styled.header`
   z-index: 5;
   text-align: center;
 `;
+
 const HeaderTitle = styled.h1`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 30px;
   text-align: center;
   display: inline-block;
@@ -56,13 +68,16 @@ const HeaderTitle = styled.h1`
 `;
 
 const HeaderLeftUl = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   top: 20px;
   left: 30px;
   position: absolute;
 `;
 const LeftImg = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   margin-right: 10px;
 `;
 const ResetText = styled.span`
