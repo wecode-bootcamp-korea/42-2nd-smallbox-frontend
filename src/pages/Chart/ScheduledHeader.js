@@ -1,4 +1,5 @@
 import { React } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 function ScheduledHeader() {
@@ -7,8 +8,8 @@ function ScheduledHeader() {
       <HeaderBox>
         <Strong>무비차트</Strong>
         <UnorderedList>
-          <ALink href="/chart?sort=1">무비차트</ALink>
-          <ALink href="/scheduled">개봉순</ALink>
+          <ALink to="/chart?sort=bookingRateDesc">무비차트</ALink>
+          <ALink to="/chart?sort=openingDesc">개봉순</ALink>
         </UnorderedList>
       </HeaderBox>
     </Header>
@@ -37,7 +38,7 @@ const Strong = styled.strong`
   padding-left: 30px;
 `;
 
-const ALink = styled.a`
+const ALink = styled(Link)`
   font-size: 15px;
   margin-right: 10px;
   &:hover {

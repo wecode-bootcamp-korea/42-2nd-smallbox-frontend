@@ -17,15 +17,14 @@ function Chart() {
   }
 
   useEffect(() => {
-    fetch('http://10.58.52.168:3000/movies?release=1&sort=bookingRateDesc', {
+    fetch(`http://10.58.52.168:3000/movies?release=1&sort=${sort}`, {
       method: 'GET',
     })
-      //http://10.58.52.179:3000/movies
       .then(res => res.json())
       .then(data => {
         setMovieChart(data.getMovies);
       });
-  }, []);
+  }, [sort]);
 
   return (
     <>

@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
 function ChartBox(props) {
-  const [movieChart, setMovieChart] = props;
+  const { movieChart } = props;
   return (
     <>
       {movieChart
@@ -15,21 +15,25 @@ function ChartBox(props) {
           }
           return 0;
         })
-        .map(result => (
+        .map((result, idx) => (
           <ChartBox key={result.movieName}>
             <Title />
-            <Image src={result.movieThumbnailImageUrl} />
+            <Link key={result.movieName} to={`detail/${idx + 1}`}>
+              <Image src={result.movieThumbnailImageUrl} />
+            </Link>
             <TextBox>
               <Title>{result.movieName}</Title>
               <Info>{result.movieSimpleDescription}</Info>
             </TextBox>
             <Ranking>
               <ReservationRate>예매율 {result.bookingRate}</ReservationRate>
-              <Opening>개봉일{result.scheduled}</Opening>
+              <Opening>개봉일 {result.scheduled}</Opening>
             </Ranking>
             <TicketingBtn>
               <i className="fas fa-calendar-alt" />
-              <Ticketing>예매하기</Ticketing>
+              <Ticketing>
+                <Link to="/selectmovie">예매하기</Link>
+              </Ticketing>
             </TicketingBtn>
           </ChartBox>
         ))}
@@ -84,6 +88,8 @@ const Opening = styled.p`
 const Image = styled.img`
   top: 0px;
   width: 100%;
+  border-radius: 15px;
+  cursor: pointer;
 `;
 
 const Ticketing = styled.span`
