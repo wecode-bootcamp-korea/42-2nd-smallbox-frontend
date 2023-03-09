@@ -57,8 +57,11 @@ export default function Payment({
     });
   };
 
+  console.log(selectedMovieData);
+  console.log(selectedTimetableData);
+
   const MOVIE_INFO = [
-    { id: 1, index: '상영관', info: 'theater' },
+    { id: 1, index: '상영관', info: '1관' },
     {
       id: 2,
       index: '상영등급',
@@ -115,7 +118,7 @@ export default function Payment({
           <CashInfoWrapper>
             <CashInfoTitle>합계</CashInfoTitle>
             <CahsInfoBottomWRapper>
-              <CashTotalContext>24,000</CashTotalContext>
+              <CashTotalContext>{12000 * selectedSeat.length}</CashTotalContext>
               <CashTotalUnit>원</CashTotalUnit>
             </CahsInfoBottomWRapper>
           </CashInfoWrapper>
@@ -167,7 +170,6 @@ const RightSection = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   margin-top: 30px;
   margin-left: 80px;
   width: 300px;
@@ -225,7 +227,7 @@ const KakaoPayBtn = styled.button`
 const CashInfoContainer = styled.div`
   position: absolute;
   display: grid;
-  grid-template-columns: 400px 200px 200px 200px;
+  grid-template-columns: 700px 200px 200px 200px;
   align-items: center;
   width: 100%;
   height: 150px;
@@ -235,7 +237,7 @@ const CashInfoContainer = styled.div`
 `;
 
 const CashInfoHeader = styled.h3`
-  margin-left: 20px;
+  margin-left: 70px;
   font-size: 30px;
 `;
 

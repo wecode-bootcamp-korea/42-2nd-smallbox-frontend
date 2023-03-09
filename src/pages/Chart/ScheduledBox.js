@@ -5,7 +5,7 @@ function ScheduledBox() {
   const [movieChart, setMovieChart] = useState([]);
 
   useEffect(() => {
-    fetch('http://10.58.52.168:3000/movies?release=1&sort=openingDesc', {
+    fetch('http://43.200.63.91:3000/movies?release=1&sort=openingDesc', {
       method: 'GET',
     })
       .then(res => res.json())

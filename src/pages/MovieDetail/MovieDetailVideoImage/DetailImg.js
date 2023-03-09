@@ -7,15 +7,15 @@ import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import styled from 'styled-components';
 
-const DetailImg = ({ movieStillCut }) => {
-  const items = [
-    {
-      src: 'https://cdn.pixabay.com/photo/2016/10/06/05/19/couple-1718244__480.jpg',
-    },
-    {
-      src: 'https://cdn.pixabay.com/photo/2018/01/05/22/48/couple-3064048__480.jpg',
-    },
-  ];
+const DetailImg = ({ stillCutList }) => {
+  // const items = [
+  //   {
+  //     src: '{movieStillCut[0]}',
+  //   },
+  //   {
+  //     src: '{movieStillCut[1]}',
+  //   },
+  // ];
 
   return (
     <SwiperImg>
@@ -36,10 +36,10 @@ const DetailImg = ({ movieStillCut }) => {
           loop={true}
           scrollbar={{ draggable: true, el: null }}
         >
-          {items.map(item => {
+          {stillCutList?.map(item => {
             return (
               <SwiperSlide key={item.idx}>
-                <img src={item.src} alt="스틸컷" />
+                <img src={item} alt="스틸컷" />
               </SwiperSlide>
             );
           })}

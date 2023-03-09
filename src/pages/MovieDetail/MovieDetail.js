@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import CharmingGraph from './CharmingGraph';
 import MovieReview from './MovieReview';
 import DetailImg from './MovieDetailVideoImage/DetailImg';
@@ -10,6 +10,7 @@ const MovieDetail = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [toggleBtn, setToggleBtn] = useState(true);
   const params = useParams();
+  const navigate = useNavigate();
 
   const {
     movieThumbNailImg,
@@ -27,6 +28,8 @@ const MovieDetail = () => {
     // movieTrailer,
   } = movieData;
 
+  const stillCutList = movieData.movieStillCut;
+
   const handleScroll = () => {
     const { scrollY } = window;
     scrollY > 200 && setToggleBtn(!toggleBtn);
@@ -34,7 +37,7 @@ const MovieDetail = () => {
 
   const goToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    toggleBtn(false);
+    setToggleBtn(false);
   };
 
   const updateScroll = () => {
@@ -42,7 +45,7 @@ const MovieDetail = () => {
   };
 
   useEffect(() => {
-    fetch(`http://10.58.52.168:3000/movies/detail?movieId=${params.id}`, {
+    fetch(`http://43.200.63.91:3000/movies/detail?movieId=${params.id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
     })
@@ -90,7 +93,13 @@ const MovieDetail = () => {
                       <DetailContext>{movieOpeningDate}</DetailContext>
                     </ul>
                   </DetailBox>
-                  <BookingButton>예매하기🎬</BookingButton>
+                  <BookingButton
+                    onClick={() => {
+                      navigate(`/booking`);
+                    }}
+                  >
+                    예매하기🎬
+                  </BookingButton>
                 </AsidePoster>
               </MovieAndDetail>
               <DesBox className="description">
@@ -99,7 +108,7 @@ const MovieDetail = () => {
                 <DesContent>
                   <span>{movieDetailDescription}</span>
                 </DesContent>
-                <DetailImg />
+                <DetailImg stillCutList={stillCutList} />
               </DesBox>
               <CharmingGraph />
               <MovieReview />
@@ -111,6 +120,9 @@ const MovieDetail = () => {
               right={scrollPosition > 100 ? '0px' : '-30px'}
               width="136px"
               scrollPosition={scrollPosition}
+              onClick={() => {
+                navigate(`/booking`);
+              }}
             >
               예매하기
             </ScrollBtn>
@@ -180,7 +192,8 @@ const DesContent = styled.div`
   color: #817f7f;
   margin-top: 50px;
   width: 89%;
-  line-height: 60px;
+  line-height: 40px;
+  margin-bottom: 100px;
 `;
 
 const BookingButton = styled.button`
@@ -232,11 +245,11 @@ const EnglishTitle = styled.p`
 const MovieTitle = styled.h1`
   font-size: 60px;
   font-weight: 700;
-  padding: 30px 0;
+  padding: 30px 0px;
   text-overflow: ellipsis;
   word-break: break-all;
-  border-bottom: 12px solid #f1f1f3;
-  padding-bottom: 0;
+  border-bottom: 1px solid #f1f1f3;
+  padding-bottom: 20px;
   text-align: center;
 `;
 const AsidePoster = styled.div`
@@ -253,7 +266,7 @@ const WholeContainer = styled.div`
 
 const MovieBox = styled.div`
   width: 80%;
-  border: 5px solid #f1f1f3;
+  // border: 5px solid #f1f1f3;
   margin: 10px;
   border-radius: 10px;
   padding: 10px;
@@ -263,12 +276,14 @@ const MovieBox = styled.div`
 const MovieAndDetail = styled.div`
   width: 100%;
   display: flex;
+  justify-content: center;
 `;
 const MoviePoster = styled.img`
   width: 580px;
   height: auto;
   border-radius: 10px;
-  filter: drop-shadow(10px 10px 10px #000);
+  -webkit-box-shadow: 17px 23px 25px 5px rgba(0, 0, 0, 0.19);
+  box-shadow: 17px 23px 25px 5px rgba(0, 0, 0, 0.19);
 `;
 
 const Detail_LIST = [

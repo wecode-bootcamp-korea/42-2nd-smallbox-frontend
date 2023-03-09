@@ -63,6 +63,7 @@ const ChartBox = styled.div`
   justify-content: flex-start;
   justify-self: center;
   align-items: flex-start;
+  margin-bottom: 50px;
   width: 300px;
   height: 600px;
 `;
@@ -75,7 +76,8 @@ const Image = styled.img`
 const Title = styled.span`
   padding-left: 15px;
   padding-right: 15px;
-  font-size: 14px;
+  font-size: 20px;
+  font-weight: 600;
 `;
 const Info = styled.span`
   padding-left: 15px;
@@ -98,13 +100,16 @@ const TicketingBtn = styled.button`
   padding: 10px 25px;
   margin-bottom: -30px;
   bottom: 0px;
-  border: 1px solid black;
+  border: 1px solid #7063ff;
+  border-radius: 10px;
   width: 100%;
   text-align: center;
   background-color: white;
+  color: #7063ff;
+
   &:hover {
     background-color: #6c5ce7;
-    color: white;
+    color: white !important;
   }
 `;
 
@@ -113,6 +118,9 @@ const Ticketing = styled.span`
 `;
 
 const Ranking = styled.div`
+  display: flex;
+  gap: 5px;
+  padding-left: 13px;
   margin-bottom: 10px;
 `;
 

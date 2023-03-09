@@ -105,7 +105,8 @@ const StyledRoot = styled.div`
       width: 300px;
       object-fit: cover;
       border-radius: 10px;
-      box-shadow: 1.8px 3.7px 8px;
+      -webkit-box-shadow: 10px 12px 25px 5px rgba(0, 0, 0, 0.19);
+      box-shadow: 10px 12px 25px 5px rgba(0, 0, 0, 0.19);
     }
   }
 `;

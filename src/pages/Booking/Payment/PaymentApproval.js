@@ -47,7 +47,6 @@ export default function PaymentApproval() {
       },
       body: JSON.stringify({
         paymentData,
-        // orderNumber,
       }),
     })
       .then(res => res.json())
@@ -56,7 +55,6 @@ export default function PaymentApproval() {
       })
       .then(navigate('/payment/result'));
   };
-
   return (
     <PaymentApprovalContainer>
       <PaymentContainer>

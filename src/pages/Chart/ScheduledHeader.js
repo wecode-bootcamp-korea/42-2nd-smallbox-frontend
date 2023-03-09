@@ -6,10 +6,10 @@ function ScheduledHeader() {
   return (
     <Header>
       <HeaderBox>
-        <Strong>무비차트</Strong>
+        {/* <Strong>무비차트</Strong> */}
         <UnorderedList>
-          <ALink to="/chart?sort=bookingRateDesc">무비차트</ALink>
           <ALink to="/chart?sort=openingDesc">개봉순</ALink>
+          <ALink to="/chart?sort=bookingRateDesc">예매율순</ALink>
         </UnorderedList>
       </HeaderBox>
     </Header>
@@ -21,11 +21,11 @@ const Header = styled.div`
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 2px solid black;
 `;
 
 const HeaderBox = styled.div`
   width: 100%;
+  margin-right: 140px;
 `;
 
 const UnorderedList = styled.ul`
@@ -42,7 +42,7 @@ const ALink = styled(Link)`
   font-size: 15px;
   margin-right: 10px;
   &:hover {
-    color: #9b59b6;
+    color: #7063ff;
   }
 `;
 
