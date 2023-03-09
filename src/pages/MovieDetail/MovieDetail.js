@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import CharmingGraph from './CharmingGraph';
 import MovieReview from './MovieReview';
 import DetailImg from './MovieDetailVideoImage/DetailImg';
@@ -90,7 +90,9 @@ const MovieDetail = () => {
                       <DetailContext>{movieOpeningDate}</DetailContext>
                     </ul>
                   </DetailBox>
-                  <BookingButton>예매하기🎬</BookingButton>
+                  <BookingButton>
+                    <Link to="/booking">예매하기🎬</Link>
+                  </BookingButton>
                 </AsidePoster>
               </MovieAndDetail>
               <DesBox className="description">
