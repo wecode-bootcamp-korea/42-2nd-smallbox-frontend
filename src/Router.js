@@ -15,10 +15,7 @@ import PaymentApproval from './pages/Booking/Payment/PaymentApproval';
 import PaymentCancel from './pages/Booking/Payment/PaymentCancel';
 import PaymentFail from './pages/Booking/Payment/PaymentFail';
 import PaymentResult from './pages/Booking/Payment/PaymentResult';
-<<<<<<< HEAD
-=======
 import Theater from './pages/Theater/Theater';
->>>>>>> b2948d2 (ADD: chart 레이아웃 & 기능 구현)
 import Chart from './pages/Chart/Chart';
 
 const Router = () => {
