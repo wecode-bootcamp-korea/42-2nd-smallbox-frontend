@@ -38,17 +38,15 @@ const MainTop4 = () => {
     </TopList4Container>
   );
 };
-
 const Top4WholeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 const Top4ContextContainer = styled.div`
-  background-color: RGB(228 228 228);
+  // background-color: RGB(228 228 228);
   padding: 30px;
-  border-radius: 20px;
+  // border-radius: 20px;
   word-break: break-all;
   overflow-x: hidden;
 `;
@@ -66,11 +64,17 @@ const Top4SubTitleText = styled.p`
 `;
 
 const TopListImgAndContext = styled.div`
-  border: 3px solid RGB(228 228 228);
   padding: 10px;
   border-radius: 20px;
-  margin: 0 10px 30px 10px;
-  box-shadow: 1.8px 3.7px 10px;
+  box-shadow: 21px 17px 28px -4px rgba(0, 0, 0, 0.36);
+  -webkit-box-shadow: 21px 17px 28px -4px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 21px 17px 28px -4px rgba(0, 0, 0, 0.36);
+  transition: 0.3s;
+
+  &:hover {
+    scale: 1.1;
+    transition: 0.3s;
+  }
 `;
 
 const Hotkeyword = styled.span`
@@ -85,14 +89,18 @@ const TopList4Container = styled.div`
 const TopListBox = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding: 0 30px;
+  margin-top: 30px;
+  gap: 100px;
 `;
 const TopListImg = styled.img`
-  border-radius: 20px;
-  width: 400px;
-  height: 530px;
+  border-radius: 15px;
+  width: 380px;
+  height: 500px;
+  padding: 10px;
   /* margin-bottom: 30px; */
-  box-shadow: 1.8px 3.7px 10px hsl(0deg 0% 0% / 0.44);
+  // box-shadow: 21px 17px 28px -4px rgba(0, 0, 0, 0.36);
+  // -webkit-box-shadow: 21px 17px 28px -4px rgba(0, 0, 0, 0.36);
+  // -moz-box-shadow: 21px 17px 28px -4px rgba(0, 0, 0, 0.36);
 `;
 
 const Top4TitleBox = styled.div`
@@ -118,9 +126,9 @@ const Top4Title = styled.h1`
 const Icon = styled.img`
   width: 100px;
   height: 100px;
+  margin-top: 10px;
 `;
 export default MainTop4;
-
 const TOP_FOUR_LIST = [
   {
     id: 1,

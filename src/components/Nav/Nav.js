@@ -25,7 +25,8 @@ function Nav() {
 
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
-  });
+  }, []);
+
   const handleSearchInput = e => setSearchInput(e.target.value);
 
   useEffect(() => {
@@ -51,12 +52,19 @@ function Nav() {
         <LogoImg
           alt="logo"
           src={logo}
+          scrollposition={scrollPosition}
           onClick={() => {
-            goToPage('/');
+            navigate(`/`);
+          }}
+        />
+        <MenuName
+          onClick={() => {
+            goToPage('/chart');
           }}
           scrollposition={scrollPosition}
-        />
-        <MenuName scrollposition={scrollPosition}>영화</MenuName>
+        >
+          영화
+        </MenuName>
         <MenuName
           onClick={() => {
             goToPage('/booking');

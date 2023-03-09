@@ -155,6 +155,7 @@ const UploadBtn = styled.button`
   color: #fff;
   font-weight: 600;
   font-size: 18px;
+  z-index: 1000;
 `;
 
 const WriteReview = styled.div`
@@ -259,7 +260,8 @@ const OpenReviewBtn = styled.button`
   font-size: 18px;
   font-weight: 600;
   color: #fff;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 17px 23px 25px 5px rgba(0, 0, 0, 0.19);
+  box-shadow: 17px 23px 25px 5px rgba(0, 0, 0, 0.19);
   transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
   cursor: pointer;
 
@@ -275,7 +277,8 @@ const ReviewInfoBox = styled.div`
   justify-content: space-between;
   padding: 35px;
   border-radius: 10px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 17px 23px 25px 5px rgba(0, 0, 0, 0.19);
+  box-shadow: 17px 23px 25px 5px rgba(0, 0, 0, 0.19);
   font-weight: 600;
   transition: 0.25s;
 `;
@@ -284,7 +287,6 @@ const WholeReviewConstainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   padding: 10px;
 `;
 const BoxText = styled.p`

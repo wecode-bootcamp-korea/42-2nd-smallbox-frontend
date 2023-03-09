@@ -24,11 +24,13 @@ export default function PaymentResult() {
     })
       .then(response => response.json())
       .then(response => setResultData(response));
-  }, []);
+  }, [ORDER_NUMBER]);
 
   const onClickMain = () => {
     return navigate('/');
   };
+
+  console.log(resultData);
 
   const MOVIE_INFO = [
     { id: 1, index: '상영관', info: `${resultData[0]?.theaterName}` },

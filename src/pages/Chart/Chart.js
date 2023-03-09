@@ -17,7 +17,7 @@ function Chart() {
   }
 
   useEffect(() => {
-    fetch(`http://10.58.52.168:3000/movies?release=1&sort=${sort}`, {
+    fetch(`http://43.200.63.91:3000/movies?release=1&sort=${sort}`, {
       method: 'GET',
     })
       .then(res => res.json())
@@ -30,9 +30,9 @@ function Chart() {
     <>
       <ScheduledHeader />
       <RankBox>
-        <Rank defaultValue={sort} onChange={e => rankEvent(e)}>
+        {/* <Rank defaultValue={sort} onChange={e => rankEvent(e)}>
           <option value="1">예매율순</option>
-        </Rank>
+        </Rank> */}
       </RankBox>
       <ChartContainer>
         <ChartList movieChart={movieChart} sort={sort} />
